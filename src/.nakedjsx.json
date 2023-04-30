@@ -1,0 +1,7 @@
+{
+    "importMapping": {},
+    "browserslistTargetQuery": "defaults",
+    "plugins": [],
+    "outputDir": "../dev",
+    "commonCssFile": "../asset/style.css"
+}
