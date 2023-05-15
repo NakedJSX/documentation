@@ -61,7 +61,7 @@ export const Example =
 
             spawnSync(
                 'npx',
-                ['nakedjsx@test', src, '--out', out, '--quiet', '--pretty'],
+                ['nakedjsx', src, '--out', out, '--quiet', '--pretty'],
                 {
                     cwd: tmp,
                     stdio: 'inherit'

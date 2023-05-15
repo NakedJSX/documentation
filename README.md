@@ -2,4 +2,15 @@
 
 This is the source project for the NakedJSX documentation.
 
-If you want to look at the documentation itself, please visit [nakedjsx.org](https://nakedjsx.org).
+If you are looking for the documentation itself, please visit [nakedjsx.org](https://nakedjsx.org).
+
+NakedJSX is used to build this documentation. Fun fact - the project [implements](https://github.com/NakedJSX/documentation/blob/main/src/example.jsx)
+an `<Example>` JSX tag that itself invokes `npx nakedjsx` to build an inline example and bring the output back into the documentation.
+
+To build into ./dist:
+
+`$ npx nakedjsx <path to documentation>/src --out ./dist`
+
+Or to build into ./dev and launch a development server:
+
+`$ npx nakedjsx <path to documentation>/src --out ./dev --dev`
