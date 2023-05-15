@@ -11,9 +11,10 @@
 }
 
 /* 3. Allow percentage-based heights in the application */
-html, body {
+/* Disabled due to swallowing margin-bottom at end of page */
+/* html, body {
     height: 100%;
-}
+} */
 
 /*
  * Typographic tweaks!
@@ -46,11 +47,14 @@ p, h1, h2, h3, h4, h5, h6 {
 /* General Varaibles */
 :root {
     /* Gaps are specified in px rather than rem to keep padding & margins fixed size when default font size is increased. */
-    --gap-eighth:   2px;
-    --gap-qtr:      4px;
-    --gap-half:     8px;
-    --gap:          16px; /* Equivalent to 1rem if default font is 16px */
-    --gap-2:        32px;
+    --gap-eighth:           2px;
+    --gap-qtr:              4px;
+    --gap-three-eighths:    6px;
+    --gap-half:             8px;
+    --gap:                  16px; /* Equivalent to 1rem if default font is 16px */
+    --gap-2:                32px;
+
+    --code-font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 }
 
 /* Palette */
@@ -61,7 +65,21 @@ p, h1, h2, h3, h4, h5, h6 {
     --soft-border-color: #dfdfdf;
     --hard-border-color: #afafaf;
     --link-color: #0070f3;
-    --code-bg-color: #efefef;
+    /*
+     * Colour values replaced by those from a11y-light Prism theme:
+     * https://github.com/ericwbailey/a11y-syntax-highlighting
+     */
+    --code-fg-color: #545454;
+    --code-bg-color: #f5f5f5;
+    --code-comment: #696969;
+    --code-punctuation: #545454;
+    --code-property: #007299;
+    --code-number: #008000;
+    --code-string: #aa5d00;
+    --code-operator: #008000;
+    --code-function: #aa5d00;
+    --code-keyword: #d91e18;
+    --code-regex: #d91e18;
 }
 @media (prefers-color-scheme:dark) {
     :root {
@@ -71,7 +89,21 @@ p, h1, h2, h3, h4, h5, h6 {
         --soft-border-color: #5f5f5f;
         --hard-border-color: #bfbfbf;
         --link-color: #1086ff;
-        --code-bg-color: #3f3f3f;
+        /*
+         * Colour values replaced by those from a11y-dark Prism theme:
+         * https://github.com/ericwbailey/a11y-syntax-highlighting
+         */
+        --code-fg-color: #f8f8f2;
+        --code-bg-color: #2b2b2b;
+        --code-comment: #d4d0ab;
+        --code-punctuation: #fefefe;
+        --code-property: #ffa07a;
+        --code-number: #00e0e0;
+        --code-string: #abe338;
+        --code-operator: #00e0e0;
+        --code-function: #ffd700;
+        --code-keyword: #00e0e0;
+        --code-regex: #ffd700;
     }
 }
 
@@ -94,6 +126,10 @@ h2 {
     line-height: 1.375;
 }
 
+code {
+    font-size: 0.875rem;
+}
+
 /* General */
 
 html,
@@ -105,12 +141,17 @@ button {
 
 main {
     margin: 0 auto;
-    padding: var(--gap);
-    max-width: 44ch;
+    padding: 0 var(--gap);
+    max-width: 52ch;
 }
 
-p {
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, dl {
     margin: var(--gap) 0;
+}
+
+pre {
+    margin: var(--gap-half) 0;
 }
 
 a {
@@ -124,10 +165,13 @@ a:active {
 }
 
 code {
-    padding: 0 var(--gap-qtr);
-    background-color: var(--code-bg-color);
+    padding: var(--gap-three-eighths) var(--gap-half);
+    white-space: nowrap;
+}
+
+pre > code {
+    display: block;
     white-space: pre;
-    border: 1px solid var(--soft-border-color);
 }
 
 input {
@@ -156,3 +200,122 @@ button:active {
     box-shadow: 0 0 12px -7px var(--hard-border-color);
     -webkit-text-stroke-width: unset !important;
 }
+
+  
+/**
+ * Prism theme, adapted from:
+ * https://unpkg.com/browse/prismjs@1.29.0/themes/prism-okaidia.css
+ *
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+ code[class*="language-"],
+ pre[class*="language-"] {
+     color: var(--code-fg-color);
+     font-family: var(--code-font-family);
+     text-align: left;
+     word-spacing: normal;
+     word-break: normal;
+     word-wrap: normal;
+     line-height: 1.5;
+ 
+     -moz-tab-size: 4;
+     -o-tab-size: 4;
+     tab-size: 4;
+ 
+     -webkit-hyphens: none;
+     -moz-hyphens: none;
+     -ms-hyphens: none;
+     hyphens: none;
+ }
+ 
+ /* Code blocks */
+ pre[class*="language-"] {
+     overflow: auto;
+ }
+ 
+ :not(pre) > code[class*="language-"],
+ pre[class*="language-"] {
+     background: var(--code-bg-color);
+ }
+ 
+ /* Inline code */
+ :not(pre) > code[class*="language-"] {
+     white-space: normal;
+ }
+ 
+ .token.comment,
+ .token.prolog,
+ .token.doctype,
+ .token.cdata {
+     color: var(--code-comment);
+ }
+ 
+ .token.punctuation {
+     color: var(--code-punctuation);
+ }
+ 
+ .token.namespace {
+     opacity: .7;
+ }
+ 
+ .token.property,
+ .token.tag,
+ .token.constant,
+ .token.symbol,
+ .token.deleted {
+     color: var(--code-property);
+ }
+ 
+ .token.boolean,
+ .token.number {
+     color: var(--code-number);
+ }
+ 
+ .token.selector,
+ .token.attr-name,
+ .token.string,
+ .token.char,
+ .token.builtin,
+ .token.inserted {
+     color: var(--code-string);
+ }
+ 
+ .token.operator,
+ .token.entity,
+ .token.url,
+ .language-css .token.string,
+ .style .token.string,
+ .token.variable {
+     color: var(--code-operator);
+ }
+ 
+ .token.atrule,
+ .token.attr-value,
+ .token.function,
+ .token.class-name {
+     color: var(--code-function);
+ }
+ 
+ .token.keyword {
+     color: var(--code-keyword);
+ }
+ 
+ .token.regex,
+ .token.important {
+     color: var(--code-regex);
+ }
+ 
+ .token.important,
+ .token.bold {
+     font-weight: bold;
+ }
+ .token.italic {
+     font-style: italic;
+ }
+ 
+ .token.entity {
+     cursor: help;
+ }

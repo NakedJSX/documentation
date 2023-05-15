@@ -1,5 +1,5 @@
-# A tour of NakedJSX features.
+# NakedJSX Documentation.
 
-These example projects are intended to introduce NakedJSX features in a logical order.
+This is the source project for the NakedJSX documentation.
 
-You can see the compiled output of these example projects at [nakedjsx.github.io/examples](https://nakedjsx.github.io/examples/).
+If you want to look at the documentation itself, please visit [nakedjsx.org](https://nakedjsx.org).

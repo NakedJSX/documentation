@@ -1,102 +1,97 @@
-import { JSX } from '@nakedjsx/core/jsx'
-import { Page } from '@nakedjsx/core/page'
+import { Page } from '@nakedjsx/core/page';
 
-const repo = 'https://github.com/NakedJSX/examples';
-const site = 'https://nakedjsx.github.io/examples';
+import HelloNakedJSX from './topic/hello-nakedjsx.jsx';
+import DevServer from './topic/dev-server.jsx';
+import JsxUsing from './topic/jsx-using.jsx';
+import CssScoped from './topic/css-scoped.jsx';
+import CssNested from './topic/css-nested.jsx';
+import CssCommonFile from './topic/css-common-file.jsx';
 
-const ExampleList =
+import AssetsIntroduction from './topic/asset-introduction.jsx';
+import ConfigFile from './topic/config-file.jsx';
+import JsxRefs from './topic/jsx-refs.jsx';
+import PagesDynamic from './topic/pages-dynamic.jsx';
+import ClientJsIntroduction from './topic/client-js-introduction.jsx';
+import ClientJsJsx from './topic/client-js-jsx.jsx';
+import DefinitionInjection from './topic/definition-injection.jsx';
+import PluginNakedjsxAssetImage from './topic/plugin-nakedjsx-asset-image.jsx';
+import PluginNakedjsxAssetPrism from './topic/plugin-nakedjsx-asset-prism.jsx';
+import PluginCustomAsset from './topic/plugin-custom-asset.jsx';
+import Acknowledgements from './topic/acknowledgements.jsx';
+
+import { Toc, TopicList, Topic, Fixed, Code, Inline } from './common.jsx';
+import { Example } from './example.jsx';
+
+const repo = 'https://github.com/NakedJSX/documentation';
+const site = 'https://nakedjsx.github.io/documentation';
+
+import { addContext } from '@nakedjsx/core/jsx';
+const Test =
     ({ children }) =>
+    {
+        addContext({ plppr: 'haha' });
+        return children;
+    }
 
-    <dl css={`
-        dt {
-            margin-top: var(--gap);
-            font-weight: bold;
-        }
+//
+// Rather than require each topic import the tags it needs,
+// add them all to the global scope.
+//
 
-        dd {
-            padding-left: var(--gap-2);
-        }
-    `}>
-        {children}
-    </dl>
-
-const Example =
-    ({ name, path, children }) =>
-    <>
-        <dt>{name}</dt>
-        <dd>
-            <a href={`${repo}/tree/main/${path}`}>Source</a> - <a href={`${site}/${path}`}>Output</a><br/>
-            {children}
-        </dd>
-    </>
+Object.assign(global, { Topic, Fixed, Code, Inline, Example });
 
 Page.Create('en');
 Page.AppendHead(
     <>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>NakedJSX Examples</title>
+        <meta name="description" content="NakedJSX builds static HTML files from JavaScript and JSX." />
+        <title>NakedJSX Documentation</title>
     </>
     );
 Page.AppendBody(
-    <main>
-        <h1>NakedJSX Examples</h1>
-        <p css="margin-top: 0">
-            <a css="font-family: monospace" href={repo}>github.com/NakedJSX/examples</a>
-        </p>
-        <p>
-            The following example projects are intended to introduce NakedJSX features in a logical order.
-        </p>
-        <p>
-            Other than sharing some CSS via a shared asset file, each is self-contained and all are built independently.
-        </p>
-        <p>
-            You can also look at the <a href={`${repo}/tree/main/src/index-html.mjs`}>source for this page</a>, which demonstrates the use of:
+    <>
+        <main>
+            <h1>NakedJSX</h1>
+            <p>NakedJSX builds static HTML files from JavaScript and JSX.</p>
+            <p>It also supports:</p>
             <ul>
-                <li>JSX props</li>
-                <li>JSX scoped CSS</li>
-                <li>Nested CSS</li>
-                <li>Using the optional <code>.nakedjsx.json</code> config</li>
+                <li>Scoped &amp; nested CSS</li>
+                <li>Use of JSX in client JavaScript</li>
+                <li>Generation of pages from build-time data</li>
+                <li>Asset handling via import</li>
+                <li>Image sourceset generation (via official plugin)</li>
+                <li>A live-refresh development server</li>
+                <li>More.</li>
             </ul>
-        </p>
-        <ExampleList>
-            <Example name="Hello NakedJSX" path="hello-nakedjsx">
-                Illustrates the essential structure of a NakedJSX page.
-            </Example>
-            <Example name="Getting Started" path="getting-started">
-                How to begin using <code>npx nakedjsx</code> to build NakedJSX pages.
-            </Example>
-            <Example name="Introduction to Assets" path="assets-introduction">
-                Adding asset files to a build and linking to them.
-            </Example>
-            <Example name="Using a Config File" path="config-file">
-                Use <code>npx nakedjsx ... --config-save</code> to save arguments into a config file.
-            </Example>
-            <Example name="Using a Common CSS File" path="css-common-file">
-                Save a trip to the server by embedding common CSS in the page itself.
-            </Example>
-            <Example name="JSX" path="jsx-using">
-                Props, children, imports, use JSX much as you would expect.
-            </Example>
-            <Example name="Scoped CSS" path="css-scoped">
-                Generate CSS classes using the <code>css</code> JSX attribute.
-            </Example>
-            <Example name="Raw Content" path="assets-raw">
-                Embedding raw content in the output, including assets, via the <code>&lt;raw-content&gt;</code> tag.
-            </Example>
-            <Example name="Client Javascript" path="client-js-introduction">
-                Add client Javascript to a page. Client-side Javascript can use JSX components, too.
-            </Example>
-            <Example name="Build-time Defined Values" path="definition-injection">
-                Make build-time defined values available to page sources.
-            </Example>
-            <Example name="Plugin: @nakedjsx/plugin-asset-image" path="plugin-nakedjsx-asset-image">
-                Generate webp & jpeg sourcesets from image assets.
-            </Example>
-            <Example name="Custom Asset Import Plugins" path="plugin-custom-asset">
-                Build your own asset import plugins.
-            </Example>
-        </ExampleList>
-    </main>
+            <p>This documentation was built by NakedJSX. You can look at the source at <a href={repo}>{repo.replace('https://', '')}</a>.</p>
+            <Test>
+                <Toc />
+            </Test>
+            <TopicList>
+                <HelloNakedJSX />
+                <DevServer />
+                <JsxUsing />
+                <CssScoped />
+                <CssNested />
+                <AssetsIntroduction />
+                {/* <CssCommonFile /> */}
+
+                {/* <ConfigFile /> */}
+                {/* <JsxRefs /> */}
+                {/* <PagesDynamic /> */}
+                <ClientJsIntroduction />
+                <ClientJsJsx />
+                {/* <DefinitionInjection /> */}
+                {/* <PluginNakedjsxAssetImage /> */}
+                {/* <PluginNakedjsxAssetPrism /> */}
+                {/* <PluginCustomAsset /> */}
+
+                <Acknowledgements />
+            </TopicList>
+        </main>
+        <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+	    <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    </>
     );
 Page.Render();
