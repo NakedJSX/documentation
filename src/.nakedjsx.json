@@ -1,5 +1,5 @@
 {
     "browserslistTargetQuery": "defaults",
     "plugins": [],
-    "commonCssFile": "../asset/style.css"
+    "commonCssFile": "style.css"
 }

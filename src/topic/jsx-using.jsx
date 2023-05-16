@@ -2,7 +2,7 @@ export default
     () =>
     <Topic name="Using JSX" path="jsx-using">
         <p>If you have used JSX before, props and children work as you would expect. For example:</p>
-        <Example captureOutput={['example', 'css-nested']}>
+        <Example captureOutput={['example', 'jsx-using']}>
             <Example.Src lang="jsx" filename="src/index-html.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
@@ -30,7 +30,7 @@ Page.Render();`
         <p>
             Note the <Inline>{`<>`}</Inline> ... <Inline>{`</>`}</Inline> JSX 'fragment' syntax.
             Fragments allow a group of JSX elements to be passed around in code in the same
-            way that a single element can be. They have no effect on the rendered HTML.
+            way that a single element can be.
         </p>
         <p>
             JSX tags compile down to functions, and you can export and import a them like any other function.
@@ -61,7 +61,7 @@ Page.AppendBody(
 Page.Render();`
         }</Code>
         <p>In this way, libraries of reusable components can be easily shared by multiple pages, or even published in an npm package.</p>
-        <p>The usual conditional rendering JSX tricks work. In the following example, the <Inline lang="jsx">{`<h2>`}</Inline> title will only render if a title prop is supplied:</p>
+        <p>The usual JSX conditional rendering tricks work. In the following example, the <Inline lang="jsx">{`<h2>`}</Inline> title will only render if a title prop is supplied:</p>
         <Code lang="jsx" title="src/common.jsx">{
 `export const Section =
     ({ title, children }) =>

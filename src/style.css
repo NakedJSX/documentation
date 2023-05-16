@@ -121,7 +121,7 @@ footer {
 }
 h1,
 h2 {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 1.5625rem;
     line-height: 1.375;
 }
@@ -145,7 +145,10 @@ main {
     max-width: 52ch;
 }
 
-h1, h2, h3, h4, h5, h6,
+h1, h2, h3, h4, h5, h6 {
+    margin: var(--gap-2) 0 var(--gap);
+    scroll-margin-top: var(--gap);
+}
 p, ul, ol, dl {
     margin: var(--gap) 0;
 }

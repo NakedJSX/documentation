@@ -27,29 +27,46 @@ export const TocItem =
 
 export const TopicList =
     ({ children }) =>
-    <dl css={`
-            dt {
-                margin-top: var(--gap-2);
-                font-weight: bold;
-            }
-        `}
-    >
+    <>
         {children}
-    </dl>
+    </>
 
 export const Topic =
-    ({ name, path, hideExample, children }) =>
+    ({ name, path, children }) =>
     {
         tocList.appendChild(<TocItem name={name} path={path} />);
 
         return  <>
-                    <dt id={path}>{name}</dt>
-                    <dd>
-                        {/* {!hideExample && <a href={`${repo}/${path}`}>example project</a>} */}
-                        {children}
-                    </dd>
+                    <h2 id={path}>{name}</h2>
+                    {children}
                 </>
     }
+
+// export const TopicList =
+//     ({ children }) =>
+//     <dl css={`
+//             dt {
+//                 margin-top: var(--gap-2);
+//                 font-weight: bold;
+//             }
+//         `}
+//     >
+//         {children}
+//     </dl>
+
+// export const Topic =
+//     ({ name, path, hideExample, children }) =>
+//     {
+//         tocList.appendChild(<TocItem name={name} path={path} />);
+
+//         return  <>
+//                     <dt id={path}>{name}</dt>
+//                     <dd>
+//                         {/* {!hideExample && <a href={`${repo}/${path}`}>example project</a>} */}
+//                         {children}
+//                     </dd>
+//                 </>
+//     }
 
 export const Fixed =
     ({ nowrap, children}) =>

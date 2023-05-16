@@ -31,7 +31,8 @@ Page.Render();`
             }</Example.Src>
         </Example>
         <p>
-            Note that in this case, scoped CSS is being extracted from a regular HTML element
-            rather than a custom JSX tag.
+            Note that in this case the scoped CSS is being extracted from what looks
+            like a regular HTML element rather than a custom JSX tag. This works because
+            we are writing JSX, not HTML.
         </p>
     </Topic>

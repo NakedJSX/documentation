@@ -36,7 +36,7 @@ Page.AppendBody(
 Page.Render();`
             }</Example.Src>
             <p>
-                As you can see, the JavaScript output is minified:
+                As you can see, the JavaScript output is minified (although formatted a little because we built with <Inline lang="shell">--pretty</Inline>):
             </p>
         </Example>
         <p>
