@@ -5,5 +5,5 @@
     "definitions": {},
     "browserslistTargetQuery": "defaults",
     "plugins": [],
-    "commonCssFile": "../asset/style.css"
+    "commonCssFile": "$ASSET/style.css"
 }
