@@ -22,7 +22,7 @@ import Acknowledgements from './topic/acknowledgements.jsx';
 import { Toc, TopicList, Topic, Fixed, Code, Inline } from './common.jsx';
 import { Example } from './example.jsx';
 
-import logo from ':raw:logo.svg'
+import logo from ':raw:$ASSET/logo.svg'
 
 const repo = 'https://github.com/NakedJSX/documentation';
 const site = 'https://nakedjsx.github.io/documentation';

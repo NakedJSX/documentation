@@ -1,6 +1,6 @@
 export default
     () =>
-    <Topic name="Hello NakedJSX" path="hello-nakedjsx" hideExample>
+    <Topic name="Hello NakedJSX" path="hello-nakedjsx">
         <p>
             NakedJSX searches a directory for filenames that match <Fixed nowrap>*-html.jsx</Fixed>.
             Each matching file is compiled and then executed to procuce a HTML file in an output directory.

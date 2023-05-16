@@ -1,6 +1,6 @@
 export default
     () =>
-    <Topic name="Development Server" path="dev-server" hideExample>
+    <Topic name="Development Server" path="dev-server">
         <p>NakedJSX includes a development server. You can start it by passing the <Inline lang="shell">--dev</Inline> flag on the command line:</p>
         <Code lang="shell">{`$ npx nakedjsx src --out dev --dev`}</Code>
         <p>This time the build output is placed in a 'dev' directory, and instead of exiting after the build, this is displayed:</p>
