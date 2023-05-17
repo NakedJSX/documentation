@@ -7,6 +7,20 @@ import { spawnSync } from 'node:child_process'
 import { Page } from '@nakedjsx/core/page'
 import { addContext, getContext, renderNow } from '@nakedjsx/core/jsx'
 
+function relativePathToUriPath(relativePath)
+{
+    //
+    // Convert some/path and some\path to some/path
+    //
+    // This is a bit convoluted due to windows paths.
+    //
+
+    const rootUriPath   = url.pathToFileURL(path.sep).pathname;
+    const uriPath       = url.pathToFileURL(path.sep + relativePath).pathname.slice(rootUriPath.length);
+
+    return uriPath;
+}
+
 export const Example =
     ({ captureOutput, buildFlags, children }) =>
     {
@@ -59,13 +73,33 @@ export const Example =
                 fs.writeFileSync(sourceFilePath, content);
             }
 
-            spawnSync(
-                'npx',
-                ['nakedjsx', src, '--out', out, '--quiet', '--pretty'],
+            const npxArgs = ['nakedjsx', src, '--out', out, '--quiet', '--pretty'];
+            const spawnOptions =
                 {
                     cwd: tmp,
                     stdio: 'inherit'
-                });
+                };
+
+            let spawnResult = spawnSync('npx', npxArgs, spawnOptions);
+            if (spawnResult.error)
+            {
+                if (spawnResult.error.code === 'ENOENT' && spawnResult.error.path === 'npx')
+                {
+                    //
+                    // Node on windows requires npx.cmd -- but i'm not sure if this is true
+                    // for all Node.js Windows runtimes, perhaps WSL is different.
+                    //
+                    // So for now the approach is to try 'npx', look for specific error
+                    // details and try 'npx.cmd' if they match
+                    //
+
+                    spawnResult = spawnSync('npx.cmd', npxArgs, spawnOptions);
+                    if (spawnResult.error)
+                        throw spawnResult.error;
+                }
+                else
+                    throw spawnResult.error;
+            }
 
             //
             // We should now have output files
@@ -111,20 +145,27 @@ export const Example =
                     {result.map(
                         ({ lang, filename, content }) =>
                         {
+                            //
+                            // Convert output folder to URI path.
+                            //
+                            // This is a bit convoluted due to windows paths.
+                            //
+
+                            const title     = 'out/' + relativePathToUriPath(filename);
+                            const uriPath   = relativePathToUriPath(path.join(...captureOutput, filename));
+
                             if (lang === 'html' && captureOutput)
                             {
-                                // Convert output folder to URI path
-                                const filePath  = path.sep + path.join(...captureOutput, filename);
-                                const uriPath   = url.pathToFileURL(filePath).pathname.slice(1);
-
-                                return  <Code lang={lang} title={`out/${filename}`} uri={uriPath} uriText="(open page in new tab)">{
+                                return  <Code lang={lang} title={title} uri={uriPath} uriText="(open page in new tab)">{
                                             content
                                         }</Code>
                             }
-                            
-                            return  <Code lang={lang} title={`out/${filename}`}>{
-                                        content
-                                    }</Code>
+                            else
+                            {
+                                return  <Code lang={lang} title={title}>{
+                                            content
+                                        }</Code>
+                            }
                         }
                         )}
                 </>;
