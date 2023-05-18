@@ -35,7 +35,7 @@ export default
 import style from '::./style.css'
 
 Page.Create('en');
-Page.AppendHead(<link rel="stylesheet" href={style} />);
+Page.AppendHead(<link type="text/css" rel="stylesheet" href={style} />);
 Page.AppendBody(
     <>
         <h1>Title</h1>
