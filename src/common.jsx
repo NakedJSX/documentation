@@ -1,8 +1,5 @@
 import { Page } from '@nakedjsx/core/page'
-import { getContext } from '@nakedjsx/core/jsx';
-
-const repo = 'https://github.com/NakedJSX/documentation';
-const site = 'https://nakedjsx.github.io/documentation';
+import { PrismCode } from '@nakedjsx/plugin-asset-prism/jsx';
 
 const tocList = Page.CreateRef();
 
@@ -42,32 +39,6 @@ export const Topic =
                 </>
     }
 
-// export const TopicList =
-//     ({ children }) =>
-//     <dl css={`
-//             dt {
-//                 margin-top: var(--gap-2);
-//                 font-weight: bold;
-//             }
-//         `}
-//     >
-//         {children}
-//     </dl>
-
-// export const Topic =
-//     ({ name, path, hideExample, children }) =>
-//     {
-//         tocList.appendChild(<TocItem name={name} path={path} />);
-
-//         return  <>
-//                     <dt id={path}>{name}</dt>
-//                     <dd>
-//                         {/* {!hideExample && <a href={`${repo}/${path}`}>example project</a>} */}
-//                         {children}
-//                     </dd>
-//                 </>
-//     }
-
 export const Fixed =
     ({ nowrap, children}) =>
     {
@@ -80,8 +51,8 @@ export const Fixed =
 export const Inline =
     ({ lang, nowrap, children }) =>
     {
-        let whiteSpace = nowrap ? `white-space: nowrap !important;` : '';
-        return <code className={`language-${lang ?? ''}`} css={whiteSpace}>{children}</code>
+        // let whiteSpace = nowrap ? `white-space: nowrap !important;` : '';
+        return <code className={`language-${lang ?? ''}`} ><PrismCode lang={lang} code={children.join('')} /></code>
     }
 
 export const Code =
@@ -92,5 +63,5 @@ export const Code =
                 <Fixed>{title}</Fixed>
                 {uri && <> <a target="_blank" href={uri} css="font-size: 0.875rem">{uriText}</a></>}
             </p>}
-        <pre css="margin: 0"><Inline lang={lang}>{children}</Inline></pre>
+        <pre css="margin: 0" className={`language-${lang ?? ''}`}><code><PrismCode lang={lang} code={children.join('')} /></code></pre>
     </>

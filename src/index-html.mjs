@@ -22,7 +22,8 @@ import Acknowledgements from './topic/acknowledgements.jsx';
 import { Toc, TopicList, Topic, Fixed, Code, Inline } from './common.jsx';
 import { Example } from './example.jsx';
 
-import logo from ':raw:$ASSET/logo.svg'
+import logo from ':raw:$ASSET/logo.svg';
+import prismTheme from ':raw:@nakedjsx/plugin-asset-prism/theme.css';
 
 const repo = 'https://github.com/NakedJSX/documentation';
 const site = 'https://nakedjsx.github.io/documentation';
@@ -51,6 +52,7 @@ Page.AppendHead(
         <title>NakedJSX Documentation</title>
     </>
     );
+Page.AppendCss(prismTheme);
 Page.AppendBody(
     <>
         <main>
@@ -92,8 +94,6 @@ Page.AppendBody(
                 <Acknowledgements />
             </TopicList>
         </main>
-        <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
-	    <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     </>
     );
 Page.Render();
