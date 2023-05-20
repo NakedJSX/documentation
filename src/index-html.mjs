@@ -26,15 +26,6 @@ import logo from ':raw:$ASSET/logo.svg';
 import prismTheme from ':raw:@nakedjsx/plugin-asset-prism/theme.css';
 
 const repo = 'https://github.com/NakedJSX/documentation';
-const site = 'https://nakedjsx.github.io/documentation';
-
-import { addContext } from '@nakedjsx/core/jsx';
-const Test =
-    ({ children }) =>
-    {
-        addContext({ plppr: 'haha' });
-        return children;
-    }
 
 //
 // Rather than require each topic import the tags it needs,
@@ -69,9 +60,7 @@ Page.AppendBody(
                 <li>More ...</li>
             </ul>
             <p>This documentation was built by NakedJSX. You can look at the source at <a href={repo}>{repo.replace('https://', '')}</a>.</p>
-            <Test>
-                <Toc />
-            </Test>
+            <Toc />
             <TopicList>
                 <HelloNakedJSX />
                 <DevServer />

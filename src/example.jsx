@@ -5,7 +5,7 @@ import url from 'node:url'
 import { spawnSync } from 'node:child_process'
 
 import { Page } from '@nakedjsx/core/page'
-import { addContext, getContext, renderNow } from '@nakedjsx/core/jsx'
+import { addContext, getContext, renderNow } from '@nakedjsx/core/page'
 
 function relativePathToUriPath(relativePath)
 {
@@ -21,12 +21,12 @@ function relativePathToUriPath(relativePath)
     return uriPath;
 }
 
+const exampleBuildCache = new Map();
+
 export const Example =
     ({ captureOutput, buildFlags, children }) =>
     {
         buildFlags = buildFlags || [];
-
-        const cache = Page.GetCache('nakedjsx.github.io/documentation/example');
 
         //
         // Provide a way for the Src tags to
@@ -56,7 +56,7 @@ export const Example =
         for (const [filename, { lang, content }] of Object.entries(sourceFiles))
             cacheKey += `,SOURCE[${filename},${lang},${content}]`;
 
-        let result = cache.get(cacheKey);
+        let result = exampleBuildCache.get(cacheKey);
         if (!result)
         {
             const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'example-'));
@@ -137,7 +137,7 @@ export const Example =
                                 };
                     });
             
-            cache.set(cacheKey, result);
+            exampleBuildCache.set(cacheKey, result);
         }
 
         return  <>
