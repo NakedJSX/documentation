@@ -15,20 +15,21 @@ export default
         <Example captureOutput={['example', 'client-javascript-jsx']}>
             <Example.Src lang="javascript" filename="src/index-client.js">{
 `const JsxTag =
-    props =>
+    ({ count }) =>
     <>
         <br/>
-        Click {\`\${props.count}\`}: This
+        Click {\`\${count}\`}: This
         <span css="color: fuchsia"> JSX </span>
         content was dynamically added to the DOM.
     </>
 
-var p = document.getElementById('click-me');
-var clickCounter = 0;
-p.onclick = () => p.appendChild(<JsxTag count={++clickCounter}/>);
+let clickCounter = 0;
+let p = document.getElementById('click-me');
+p.onclick =
+    () => p.appendChild(<JsxTag count={++clickCounter}/>);
 `
             }</Example.Src>
-            <Example.Src lang="javascript" filename="src/index-html.jsx">{
+            <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');
@@ -41,7 +42,7 @@ Page.AppendBody(
 Page.Render();`
             }</Example.Src>
             <p>The client JSX is compiled down to JavaScript that creates the necessary DOM elements and sets their attributes.</p>
-            <p>A handful of functions are added for the DOM element construction runtime.</p>
+            <p>About 630 bytes is added for the DOM element construction runtime.</p>
             <p>
                 The browser <Inline lang="javascript">Element.prototype.appendChild()</Inline> implementation is patched to add support
                 for adding an array of elements. Without this, this example would have needed to iterate over the JSX fragment returned by <Inline lang="jsx">{`<JsxTag />`}</Inline>.

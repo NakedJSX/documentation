@@ -7,6 +7,6 @@ export default
         <Code>{`Development server: http://localhost:8999, Press (x) to exit`}</Code>
         <p>
             You can now open <a href="http://localhost:8999">http://localhost:8999</a> and you will see the rendered index page.
-            If you edit and save <Fixed>src/index-html.jsx</Fixed>, the server will rebuild <Fixed>dev/index.html</Fixed> and the browser will refresh.
+            If you edit and save <Fixed>src/index-page.jsx</Fixed>, the server will rebuild <Fixed>dev/index.html</Fixed> and the browser will refresh.
         </p>
     </Topic>

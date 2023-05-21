@@ -1,16 +1,16 @@
 const DepList =
     ({ children }) =>
-    <ul>
+    <>
         {children}
-    </ul>
+    </>
 
 const Dep =
     ({ name, url, donate, plugins, children }) =>
-    <li>
-        <a href={url}>{name}</a>{donate && <> - <a href={donate}>donate</a></>}
+    <>
+        <h3><a href={url}>{name}</a>{donate && <> - <a href={donate}>donate</a></>}</h3>
         {children}
         {plugins && <p css="font-size: 1rem">* {plugins}</p>}
-    </li>
+    </>
 
 export default
     () =>

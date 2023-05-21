@@ -3,7 +3,7 @@ export default
     <Topic name="Using JSX" path="jsx-using">
         <p>If you have used JSX before, props and children work as you would expect. For example:</p>
         <Example captureOutput={['example', 'jsx-using']}>
-            <Example.Src lang="jsx" filename="src/index-html.jsx">{
+            <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 const Section =
@@ -44,7 +44,7 @@ Page.Render();`
         {children}
     </>`
         }</Code>
-        <Code lang="jsx" title="src/index-html.jsx">{
+        <Code lang="jsx" title="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 import { Section } from './common.jsx'
 

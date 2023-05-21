@@ -6,7 +6,7 @@ export default
             with automatic conversion to browser compatible CSS.
         </p>
         <Example captureOutput={['example', 'css-nested']}>
-            <Example.Src lang="jsx" filename="src/index-html.jsx">{
+            <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');

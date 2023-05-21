@@ -11,7 +11,7 @@ export default
     () =>
     <Topic name="Introduction to Assets" path="asset-introduction">
         <p>
-            NakedJSX allows you to import and publish arbitrary files via the asset system.
+            NakedJSX allows you to publish arbitrary files via the asset system.
             Asset files are optionially processed by an import plugin, then placed
             in the build output 'asset' subdirectory.
         </p>
@@ -29,7 +29,7 @@ export default
         </p>
         <Example captureOutput={['example', 'asset-introduction']}>
             <Example.Src lang="css" filename="src/style.css">{cssContent}</Example.Src>
-            <Example.Src lang="javascript" filename="src/index-html.jsx">{
+            <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 import style from '::./style.css'
@@ -58,7 +58,7 @@ Page.Render();`
         </p>
         <Example captureOutput={['example', 'asset-introduction-raw']}>
             <Example.Src hidden lang="css" filename="src/style.css">{cssContent}</Example.Src>
-            <Example.Src lang="javascript" filename="src/index-html.jsx">{
+            <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 import style from ':raw:./style.css'

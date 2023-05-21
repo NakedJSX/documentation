@@ -9,7 +9,7 @@ export default
             share a class in the final output:
         </p>
         <Example captureOutput={['example', 'css-scoped']}>
-            <Example.Src lang="jsx" filename="src/index-html.mjs">{
+            <Example.Src lang="jsx" filename="src/index-page.mjs">{
 `import { Page } from '@nakedjsx/core/page'
 
 const Section =

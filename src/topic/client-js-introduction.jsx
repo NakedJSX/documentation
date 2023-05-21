@@ -23,7 +23,7 @@ p.onclick =
         p.appendChild(document.createTextNode(\`Click \${++clickCounter}: This content was dynamically added to the DOM.\`));
     };`
             }</Example.Src>
-            <Example.Src lang="javascript" filename="src/index-html.jsx">{
+            <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');
