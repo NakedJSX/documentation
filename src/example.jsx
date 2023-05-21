@@ -21,7 +21,7 @@ function relativePathToUriPath(relativePath)
     return uriPath;
 }
 
-const exampleBuildCache = new Map();
+const exampleBuildCache = Page.CacheMapGet(import.meta.url.href);
 
 export const Example =
     ({ captureOutput, buildFlags, children }) =>
