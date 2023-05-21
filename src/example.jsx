@@ -5,7 +5,7 @@ import url from 'node:url'
 import { spawnSync } from 'node:child_process'
 
 import { Page } from '@nakedjsx/core/page'
-import { addContext, getContext, renderNow } from '@nakedjsx/core/page'
+import { renderNow } from '@nakedjsx/core/page'
 
 function relativePathToUriPath(relativePath)
 {
@@ -38,7 +38,7 @@ export const Example =
         //
 
         const sourceFiles = {};
-        addContext({ sourceFiles });
+        Page.ContextAdd({ sourceFiles });
 
         //
         // We need to force child Src tags to render immediately,
@@ -183,7 +183,7 @@ Example.Src =
         // Pass the code back to the <Example> tag via context
         //
 
-        const { sourceFiles } = getContext();
+        const { sourceFiles } = Page.ContextGet();
         sourceFiles[filename] =
             {
                 lang,

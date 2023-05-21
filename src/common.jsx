@@ -1,7 +1,7 @@
 import { Page } from '@nakedjsx/core/page'
 import { PrismCode } from '@nakedjsx/plugin-asset-prism/jsx';
 
-const tocList = Page.CreateRef();
+const tocList = Page.RefCreate();
 
 export const Toc =
     () =>
