@@ -17,7 +17,6 @@ import DefinitionInjection from './topic/definition-injection.jsx';
 import PluginNakedjsxAssetImage from './topic/plugin-nakedjsx-asset-image.jsx';
 import PluginNakedjsxAssetPrism from './topic/plugin-nakedjsx-asset-prism.jsx';
 import PluginCustomAsset from './topic/plugin-custom-asset.jsx';
-import Acknowledgements from './topic/acknowledgements.jsx';
 
 import { Toc, TopicList, Topic, Fixed, Code, Inline } from './common.jsx';
 import { Example } from './example.jsx';
@@ -49,16 +48,6 @@ Page.AppendBody(
         <main>
             <h1><raw-content content={logo} /> Documentation</h1>
             <p>NakedJSX builds static HTML files from JavaScript and JSX.</p>
-            <p>It also supports:</p>
-            <ul>
-                <li>Scoped &amp; nested CSS</li>
-                <li>Use of JSX in client JavaScript</li>
-                <li>Generation of static pages from build-time data</li>
-                <li>Asset handling via import statements</li>
-                <li>Image sourceset generation (via official plugin)</li>
-                <li>A live-refresh development server</li>
-                <li>More ...</li>
-            </ul>
             <p>This documentation was built by NakedJSX. You can look at the source at <a href={repo}>{repo.replace('https://', '')}</a>.</p>
             <Toc />
             <TopicList>
@@ -79,8 +68,6 @@ Page.AppendBody(
                 {/* <PluginNakedjsxAssetImage /> */}
                 {/* <PluginNakedjsxAssetPrism /> */}
                 {/* <PluginCustomAsset /> */}
-
-                <Acknowledgements />
             </TopicList>
         </main>
     </>

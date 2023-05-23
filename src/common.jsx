@@ -31,7 +31,7 @@ export const TopicList =
 export const Topic =
     ({ name, path, children }) =>
     {
-        tocList.appendChild(<TocItem name={name} path={path} />);
+        tocList.appendJsx(<TocItem name={name} path={path} />);
 
         return  <>
                     <h2 id={path}>{name}</h2>
@@ -56,12 +56,12 @@ export const Inline =
     }
 
 export const Code =
-    ({ lang, title, uri, uriText, children }) =>
+    ({ codeTagId, lang, title, wordwrap, uri, uriTarget, uriText, children }) =>
     <>
         {title &&
             <p css="margin-bottom: 0; padding-left: var(--gap-half)">
                 <Fixed>{title}</Fixed>
-                {uri && <> <a target="_blank" href={uri} css="font-size: 0.875rem">{uriText}</a></>}
+                {uri && <> <a target={uriTarget} href={uri} css="font-size: 0.875rem">{uriText}</a></>}
             </p>}
-        <pre css="margin: 0" className={`language-${lang ?? ''}`}><code><PrismCode lang={lang} code={children.join('')} /></code></pre>
+        <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={codeTagId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
     </>

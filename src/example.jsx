@@ -5,7 +5,8 @@ import url from 'node:url'
 import { spawnSync } from 'node:child_process'
 
 import { Page } from '@nakedjsx/core/page'
-import { renderNow } from '@nakedjsx/core/page'
+
+import { Code } from './common.jsx'
 
 function relativePathToUriPath(relativePath)
 {
@@ -24,9 +25,9 @@ function relativePathToUriPath(relativePath)
 const exampleBuildCache = Page.CacheMapGet(import.meta.url.href);
 
 export const Example =
-    ({ captureOutput, buildFlags, children }) =>
+    ({ captureOutput, wordwrapOutput, buildFlags, context, children }) =>
     {
-        buildFlags = buildFlags || [];
+        buildFlags = buildFlags || ['--pretty'];
 
         //
         // Provide a way for the Src tags to
@@ -38,21 +39,33 @@ export const Example =
         //
 
         const sourceFiles = {};
-        Page.ContextAdd({ sourceFiles });
+        context.sourceFiles = sourceFiles;
+
+        //
+        // Make the build command used to any <Example.BuildCmd> child
+        //
+
+        const npxArgs = ['nakedjsx', 'src', '--out', 'out', '--quiet', ...buildFlags];
+        context.buildCommand = 'npx';
+        for (const segment of npxArgs)
+            if (segment === '--quiet') // this isn't relevant to the reader
+                continue;
+            else
+                context.buildCommand += ' ' + segment;
 
         //
         // We need to force child Src tags to render immediately,
         // so that data has been fed back via the context.
         //
 
-        const sources = renderNow(children);
+        const sources = Page.EvaluateNow(children);
 
         //
         // Create a cache key from the filenames and their
         // expected contents.
         //
 
-        let cacheKey = `CAPTURE[${captureOutput ? captureOutput.join() : ''}],FLAGS[${buildFlags.join()}]`;
+        let cacheKey = `CAPTURE[${captureOutput ? captureOutput.join() : ''}],BUILD[${context.buildCommand}]`;
         for (const [filename, { lang, content }] of Object.entries(sourceFiles))
             cacheKey += `,SOURCE[${filename},${lang},${content}]`;
 
@@ -62,6 +75,10 @@ export const Example =
             const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'example-'));
             const src = path.join(tmp, 'src');
             const out = captureOutput ? Page.GetOutputPath(path.join(...captureOutput)) : path.join(tmp, 'out');
+
+            // Update the build command input and output folders
+            npxArgs[1] = src;
+            npxArgs[3] = out;
 
             for (const [filename, { content }] of Object.entries(sourceFiles))
             {
@@ -73,7 +90,6 @@ export const Example =
                 fs.writeFileSync(sourceFilePath, content);
             }
 
-            const npxArgs = ['nakedjsx', src, '--out', out, '--quiet', '--pretty'];
             const spawnOptions =
                 {
                     cwd: tmp,
@@ -151,18 +167,19 @@ export const Example =
                             // This is a bit convoluted due to windows paths.
                             //
 
-                            const title     = 'out/' + relativePathToUriPath(filename);
-                            const uriPath   = relativePathToUriPath(path.join(...captureOutput, filename));
+                            const title = 'out/' + relativePathToUriPath(filename);
 
                             if (lang === 'html' && captureOutput)
                             {
-                                return  <Code lang={lang} title={title} uri={uriPath} uriText="(open page in new tab)">{
+                                const uriPath = relativePathToUriPath(path.join(...captureOutput, filename));
+
+                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open page in new tab)">{
                                             content
                                         }</Code>
                             }
                             else
                             {
-                                return  <Code lang={lang} title={title}>{
+                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title}>{
                                             content
                                         }</Code>
                             }
@@ -171,8 +188,16 @@ export const Example =
                 </>;
     }
 
+Example.BuildCmd =
+    ({ context, children }) =>
+    {
+        return <Code lang="shell">$ {context.buildCommand}</Code>
+    }
+
+let exampleCodeIndex = 0;
+
 Example.Src =
-    ({ hidden, lang, filename, children }) =>
+    ({ hidden, lang, filename, context, children }) =>
     {
         const content = children[0];
 
@@ -183,7 +208,7 @@ Example.Src =
         // Pass the code back to the <Example> tag via context
         //
 
-        const { sourceFiles } = Page.ContextGet();
+        const { sourceFiles } = context;
         sourceFiles[filename] =
             {
                 lang,
@@ -191,5 +216,10 @@ Example.Src =
             };
 
         if (!hidden)
-            return <Code lang={lang} title={filename}>{children[0]}</Code>
+        {
+            const id = `example-code-${exampleCodeIndex++}`;
+            const copyUri = `javascript:navigator.clipboard.writeText(document.getElementById(${JSON.stringify(id)}).innerText);`
+
+            return <Code codeTagId={id} lang={lang} title={filename} uri={copyUri} uriText="(copy code to clipboard)">{children[0]}</Code>
+        }
     }
