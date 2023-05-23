@@ -18,7 +18,7 @@ export default
     <Topic name="Getting Started" path="hello-nakedjsx">
         <p>
             NakedJSX searches a directory for filenames that match <Fixed nowrap>*-page.jsx</Fixed>.
-            Each matching file is compiled and then executed to procuce a HTML file in an output directory.
+            Each matching file is compiled and then executed to produce a HTML file in an output directory.
         </p>
         <p>Here is a minimal NakedJSX project. It consists of one file in an otherwise empty directory:</p>
         <Example captureOutput={['example', 'hello-nakedjsx']}>
