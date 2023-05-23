@@ -65,3 +65,16 @@ export const Code =
             </p>}
         <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={codeTagId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
     </>
+
+export const Analytics =
+    () =>
+    <>
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CT8HVM4X2E" />
+        <script>{
+`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-CT8HVM4X2E');`
+        }</script>
+    </>

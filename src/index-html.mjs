@@ -18,7 +18,7 @@ import PluginNakedjsxAssetImage from './topic/plugin-nakedjsx-asset-image.jsx';
 import PluginNakedjsxAssetPrism from './topic/plugin-nakedjsx-asset-prism.jsx';
 import PluginCustomAsset from './topic/plugin-custom-asset.jsx';
 
-import { Toc, TopicList, Topic, Fixed, Code, Inline } from './common.jsx';
+import { Toc, TopicList, Topic, Fixed, Code, Inline, Analytics } from './common.jsx';
 import { Example } from './example.jsx';
 
 import logo from ':raw:$ASSET/logo.svg';
@@ -42,6 +42,7 @@ Page.AppendHead(
         <title>NakedJSX Documentation</title>
     </>
     );
+Page.AppendHead(<Analytics />);
 Page.AppendCss(prismTheme);
 Page.AppendBody(
     <>
