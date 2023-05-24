@@ -71,10 +71,10 @@ export const Analytics =
     <>
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-CT8HVM4X2E" />
-        <script>{
+        <script><raw-content content={
 `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-CT8HVM4X2E');`
-        }</script>
+        }/></script>
     </>
