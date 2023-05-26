@@ -98,7 +98,7 @@ h2 {
 }
 h3 {
     font-weight: 400;
-    font-size: 1.375rem;
+    font-size: 1.25rem;
     border-bottom: 1px solid var(--soft-border-color);
 }
 
@@ -119,6 +119,14 @@ main {
     margin: 0 auto;
     padding: 0 var(--gap);
     max-width: 52ch;
+}
+
+footer {
+    border-top: 1px solid var(--soft-border-color);
+}
+footer p {
+    margin: var(--gap-eighth) 0;
+    font-size: 0.875rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -152,7 +160,7 @@ input:disabled,
 button:disabled {
     opacity: 0.5;
 }
-button {
+button:not(.link) {
     box-shadow: 0 0 12px -4px var(--hard-border-color);
     border: 1px solid var(--hard-border-color);
     border-radius: 8px;
@@ -160,11 +168,32 @@ button {
     margin-left: var(--gap-qtr);
     margin-right: var(--gap-qtr);
 }
-button:enabled:hover,
-button:enabled:focus-visible {
+button:not(.link):enabled:hover,
+button:not(.link):enabled:focus-visible {
     -webkit-text-stroke-width: 0.03ex;
 }
-button:active {
+button:not(.link):active {
     box-shadow: 0 0 12px -7px var(--hard-border-color);
     -webkit-text-stroke-width: unset !important;
+}
+
+button.link {
+    color: var(--link-color);
+    padding: 0!important;
+    background: none!important;
+    border: none;
+    cursor: pointer;
+}
+button.link:enabled:hover,
+button.link:enabled:focus-visible {
+    text-decoration: underline;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity:1;
+    }
+    100% {
+        opacity:0;
+    }
 }

@@ -29,6 +29,9 @@ export const Example =
     {
         buildFlags = buildFlags || ['--pretty'];
 
+        if (captureOutput)
+            captureOutput = path.join(...captureOutput);
+
         //
         // Provide a way for the Src tags to
         // pass their file contents back here.
@@ -65,7 +68,7 @@ export const Example =
         // expected contents.
         //
 
-        let cacheKey = `CAPTURE[${captureOutput ? captureOutput.join() : ''}],BUILD[${context.buildCommand}]`;
+        let cacheKey = `CAPTURE[${captureOutput ? Page.GetOutputPath(captureOutput) : ''}],BUILD[${context.buildCommand}]`;
         for (const [filename, { lang, content }] of Object.entries(sourceFiles))
             cacheKey += `,SOURCE[${filename},${lang},${content}]`;
 
@@ -74,7 +77,7 @@ export const Example =
         {
             const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'example-'));
             const src = path.join(tmp, 'src');
-            const out = captureOutput ? Page.GetOutputPath(path.join(...captureOutput)) : path.join(tmp, 'out');
+            const out = captureOutput ? Page.GetOutputPath(captureOutput) : path.join(tmp, 'out');
 
             // Update the build command input and output folders
             npxArgs[1] = src;
@@ -171,7 +174,7 @@ export const Example =
 
                             if (lang === 'html' && captureOutput)
                             {
-                                const uriPath = relativePathToUriPath(path.join(...captureOutput, filename));
+                                const uriPath = relativePathToUriPath(path.join(captureOutput, filename));
 
                                 return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open page in new tab)">{
                                             content
@@ -216,10 +219,6 @@ Example.Src =
             };
 
         if (!hidden)
-        {
-            const id = `example-code-${exampleCodeIndex++}`;
-            const copyUri = `javascript:navigator.clipboard.writeText(document.getElementById(${JSON.stringify(id)}).innerText);`
-
-            return <Code codeTagId={id} lang={lang} title={filename} uri={copyUri} uriText="(copy code to clipboard)">{children[0]}</Code>
-        }
+            return <Code lang={lang} title={filename} copyCodeLink>{children[0]}</Code>
     }
+

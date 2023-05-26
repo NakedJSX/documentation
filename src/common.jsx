@@ -56,15 +56,72 @@ export const Inline =
     }
 
 export const Code =
-    ({ codeTagId, lang, title, wordwrap, uri, uriTarget, uriText, children }) =>
-    <>
-        {title &&
-            <p css="margin-bottom: 0; padding-left: var(--gap-half)">
-                <Fixed>{title}</Fixed>
-                {uri && <> <a target={uriTarget} href={uri} css="font-size: 0.875rem">{uriText}</a></>}
-            </p>}
-        <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={codeTagId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
-    </>
+    ({ lang, title, wordwrap, uri, uriTarget, uriText, copyCodeLink, children }) =>
+    {
+        // If these don't get defined, the resulting nodes won't have an id
+        let copyId;
+        let codeId;
+
+        if (copyCodeLink)
+        {
+            const id = Page.UniqueId();
+
+            copyId = `${id}.Code.copyId`;
+            codeId = `${id}.Code.codeId`;
+
+            Page.AppendJs(hookupCopyToClipboard);
+            Page.AppendJs(`hookupCopyToClipboard('${id}')`);
+        }
+        
+        return  <>
+                    {title &&
+                        <p css={
+                           `margin-bottom: var(--gap-three-eighths);
+                            padding-left: var(--gap-half);
+                            font-size: 0.875rem;`
+                        }>
+                            <Fixed>{title}</Fixed>
+                            {uri            && <> <a target={uriTarget} href={uri}>{uriText}</a></>}
+                            {copyCodeLink   && <> <button id={copyId } className="link">(copy code to clipboard)</button></>}
+                        </p>}
+                    <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={codeId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
+                </>
+    }
+
+/**
+ * Client Javascript for copying example source code to the clipboard.
+ */
+function hookupCopyToClipboard(id)
+{
+    const copyId     = `${id}.Code.copyId`;
+    const codeId     = `${id}.Code.codeId`;
+    const feedbackId = `${id}.Code.feedback`;
+
+    document.getElementById(copyId).onclick =
+        (event) =>
+        {
+            event.preventDefault();/*ha*/
+
+            const target = event.target;
+            const parent = target.parentNode;
+            const code   = document.getElementById(codeId).innerText;
+
+            function feedback(content)
+            {
+                // remove old feedback
+                const oldFeedback = document.getElementById(feedbackId);
+                if (oldFeedback)
+                    oldFeedback.remove();
+
+                const e = <span id={feedbackId} css="opacity: 0; animation: fadeOut ease 1500ms;">{content}</span>;
+                parent.insertBefore(e, event.target.nextSibling);
+
+                setTimeout(() => e.remove(), 1500);
+            }
+            
+            navigator.clipboard.writeText(code).then(() => feedback(' ✅'), () => feedback(' ❌'));
+        };
+};
 
 export const Analytics =
     () =>

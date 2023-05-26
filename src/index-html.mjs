@@ -40,9 +40,9 @@ Page.AppendHead(
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="NakedJSX builds static HTML files from JavaScript and JSX." />
         <title>NakedJSX Documentation</title>
+        <Analytics />
     </>
     );
-Page.AppendHead(<Analytics />);
 Page.AppendCss(prismTheme);
 Page.AppendBody(
     <>
