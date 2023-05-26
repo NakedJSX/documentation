@@ -36,7 +36,7 @@ Page.Render();`
             JSX tags compile down to functions, and you can export and import a them like any other function.
             A refactored version of the above example might be split into two files like this:
         </p>
-        <Code lang="jsx" title="src/common.jsx">{
+        <Code lang="jsx" title="src/common.jsx" copyCodeLink>{
 `export const Section =
     ({ title, children }) =>
     <>
@@ -44,7 +44,7 @@ Page.Render();`
         {children}
     </>`
         }</Code>
-        <Code lang="jsx" title="src/index-page.jsx">{
+        <Code lang="jsx" title="src/index-page.jsx" copyCodeLink>{
 `import { Page } from '@nakedjsx/core/page'
 import { Section } from './common.jsx'
 
@@ -62,7 +62,7 @@ Page.Render();`
         }</Code>
         <p>In this way, libraries of reusable components can be easily shared by multiple pages, or even published in an npm package.</p>
         <p>The usual JSX conditional rendering tricks work. In the following example, the <Inline lang="jsx">{`<h2>`}</Inline> title will only render if a title prop is supplied:</p>
-        <Code lang="jsx" title="src/common.jsx">{
+        <Code lang="jsx" title="src/common.jsx" copyCodeLink>{
 `export const Section =
     ({ title, children }) =>
     <>
