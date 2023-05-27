@@ -70,7 +70,7 @@ export const Code =
             codeId = `${id}.Code.codeId`;
 
             Page.AppendJs(hookupCopyToClipboard);
-            Page.AppendJs(`hookupCopyToClipboard('${id}')`);
+            Page.AppendJsCall(hookupCopyToClipboard.name, id);
         }
         
         return  <>
