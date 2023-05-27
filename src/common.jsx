@@ -6,7 +6,7 @@ const tocList = Page.RefCreate();
 export const Toc =
     () =>
     <>
-        <h2>Topics</h2>
+        <h2 id="toc">Topics</h2>
         <nav>
             <p  ref={tocList}
                 css={`
@@ -19,8 +19,8 @@ export const Toc =
     </>
 
 export const TocItem =
-    ({ name, path }) =>
-    <a href={`#${path}`}>{name}</a>
+    ({ linkId, name, path }) =>
+    <a id={linkId} href={`#${path}`}>{name}</a>
 
 export const TopicList =
     ({ children }) =>
@@ -31,10 +31,17 @@ export const TopicList =
 export const Topic =
     ({ name, path, children }) =>
     {
-        tocList.appendJsx(<TocItem name={name} path={path} />);
+        const id        = Page.UniqueId();
+        const copyId    = `${id}.copyId`;
+        const targetId  = `${id}.targetId`;
+
+        tocList.appendJsx(<TocItem linkId={targetId} name={name} path={path} />);
+
+        Page.AppendJs(hookupCopyToClipboard);
+        Page.AppendJsCall(hookupCopyToClipboard.name, id, 'href');
 
         return  <>
-                    <h2 id={path}>{name}</h2>
+                    <h2 id={path} css="* { font-size: 0.875rem }">{name} <button id={copyId} className="link">(copy link)</button></h2>
                     {children}
                 </>
     }
@@ -60,17 +67,17 @@ export const Code =
     {
         // If these don't get defined, the resulting nodes won't have an id
         let copyId;
-        let codeId;
+        let targetId;
 
         if (copyCodeLink)
         {
             const id = Page.UniqueId();
 
-            copyId = `${id}.Code.copyId`;
-            codeId = `${id}.Code.codeId`;
+            copyId      = `${id}.copyId`;
+            targetId    = `${id}.targetId`;
 
             Page.AppendJs(hookupCopyToClipboard);
-            Page.AppendJsCall(hookupCopyToClipboard.name, id);
+            Page.AppendJsCall(hookupCopyToClipboard.name, id, 'innerText');
         }
         
         return  <>
@@ -82,29 +89,29 @@ export const Code =
                         }>
                             <Fixed>{title}</Fixed>
                             {uri            && <> <a target={uriTarget} href={uri}>{uriText}</a></>}
-                            {copyCodeLink   && <> <button id={copyId } className="link">(copy code to clipboard)</button></>}
+                            {copyCodeLink   && <> <button id={copyId } className="link">(copy code)</button></>}
                         </p>}
-                    <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={codeId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
+                    <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={targetId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
                 </>
     }
 
 /**
- * Client Javascript for copying example source code to the clipboard.
+ * Client Javascript for copying example source code / link to the clipboard.
  */
-function hookupCopyToClipboard(id)
+function hookupCopyToClipboard(id, attribute)
 {
-    const copyId     = `${id}.Code.copyId`;
-    const codeId     = `${id}.Code.codeId`;
-    const feedbackId = `${id}.Code.feedback`;
+    const copyId     = `${id}.copyId`;
+    const targetId   = `${id}.targetId`;
+    const feedbackId = `${id}.feedback`;
 
     document.getElementById(copyId).onclick =
         (event) =>
         {
-            event.preventDefault();/*ha*/
+            event.preventDefault();
 
-            const target = event.target;
-            const parent = target.parentNode;
-            const code   = document.getElementById(codeId).innerText;
+            const target    = event.target;
+            const parent    = target.parentNode;
+            const content   = document.getElementById(targetId)[attribute];
 
             function feedback(content)
             {
@@ -119,7 +126,7 @@ function hookupCopyToClipboard(id)
                 setTimeout(() => e.remove(), 1500);
             }
             
-            navigator.clipboard.writeText(code).then(() => feedback(' ✅'), () => feedback(' ❌'));
+            navigator.clipboard.writeText(content).then(() => feedback(' ✅'), () => feedback(' ❌'));
         };
 };
 
