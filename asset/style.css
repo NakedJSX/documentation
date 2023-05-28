@@ -161,10 +161,10 @@ input:disabled,
 button {
     white-space: nowrap;
 }
-
 button:disabled {
     opacity: 0.5;
 }
+
 button:not(.link) {
     box-shadow: 0 0 12px -4px var(--hard-border-color);
     border: 1px solid var(--hard-border-color);

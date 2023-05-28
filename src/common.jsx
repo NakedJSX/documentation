@@ -64,8 +64,17 @@ export const Topic =
         return  <>
                     <Heading    id={context.path}
                                 depth={context.depth + 1}
-                                css="display: flex; justify-content: space-between; * { font-size: 0.875rem }"
-                                >{name} <button id={copyId} className="link">(copy link)</button>
+                                css={
+                                   `display: flex;
+                                    flex-wrap: wrap;
+                                    align-items: baseline;
+                                    justify-content: space-between;
+                                    
+                                    button {
+                                        font-size: 0.875rem;
+                                    }`
+                    }>
+                        {name} <button id={copyId} className="link">(copy link)</button>
                     </Heading>
                     {children}
                     {!hideReturn && <p><a href="#toc">↑ Return to list of topics</a></p>}
