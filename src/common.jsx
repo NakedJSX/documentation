@@ -43,6 +43,7 @@ export const Topic =
         return  <>
                     <h2 id={path} css="* { font-size: 0.875rem }">{name} <button id={copyId} className="link">(copy link)</button></h2>
                     {children}
+                    <a href="#toc">↑ Return to list of topics</a>
                 </>
     }
 
