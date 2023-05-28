@@ -36,5 +36,4 @@ export default
             }</Example.Src>
             <p>If you build it without the <Inline>--pretty</Inline> flag, the result is tightly packed and suitable for distribution:</p>
         </Example>
-        <p>Having a simple way to build HTML files from JSX is a good start, but NakedJSX can do much more.</p>
     </Topic>

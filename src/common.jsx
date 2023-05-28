@@ -41,14 +41,12 @@ const Heading =
             return <h4 {...props}>{children}</h4>
         if (depth == 5)
             return <h5 {...props}>{children}</h5>
-        if (depth == 2)
+        else
             return <h6 {...props}>{children}</h6>
-        
-        throw Error('bad Heading depth: ' + depth);
     }
 
 export const Topic =
-    ({ name, path, children, context }) =>
+    ({ name, path, hideReturn, children, context }) =>
     {
         // Use context.depth to control nested topic behaviour
         context.depth   = context.depth ? context.depth + 1 : 1;
@@ -70,7 +68,7 @@ export const Topic =
                                 >{name} <button id={copyId} className="link">(copy link)</button>
                     </Heading>
                     {children}
-                    {context.depth == 1 && <p><a href="#toc">↑ Return to list of topics</a></p>}
+                    {!hideReturn && <p><a href="#toc">↑ Return to list of topics</a></p>}
                 </>
     }
 

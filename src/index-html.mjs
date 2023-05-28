@@ -3,13 +3,10 @@ import { Page } from '@nakedjsx/core/page';
 import GettingStarted from './topic/getting-started.jsx';
 import DevServer from './topic/dev-server.jsx';
 import JsxUsing from './topic/jsx-using.jsx';
-import CssScoped from './topic/css-scoped.jsx';
-import CssNested from './topic/css-nested.jsx';
-import CssCommonFile from './topic/css-common-file.jsx';
+import CssUsing from './topic/css-using.jsx';
 
-import AssetsIntroduction from './topic/asset-introduction.jsx';
+import AssetsUsing from './topic/assets-using.jsx';
 import ConfigFile from './topic/config-file.jsx';
-import JsxRefs from './topic/jsx-refs.jsx';
 import PagesDynamic from './topic/pages-dynamic.jsx';
 import ClientJsIntroduction from './topic/client-js-introduction.jsx';
 import ClientJsJsx from './topic/client-js-jsx.jsx';
@@ -52,17 +49,13 @@ Page.AppendBody(
             <TopicList>
                 <GettingStarted />
                 <DevServer />
+                <ConfigFile />
                 <JsxUsing />
-                <CssScoped />
-                <CssNested />
-                <AssetsIntroduction />
-                {/* <CssCommonFile /> */}
-
-                {/* <ConfigFile /> */}
-                {/* <JsxRefs /> */}
-                {/* <PagesDynamic /> */}
+                <CssUsing />
+                <AssetsUsing />
                 <ClientJsIntroduction />
                 <ClientJsJsx />
+                {/* <PagesDynamic /> */}
                 {/* <DefinitionInjection /> */}
                 {/* <PluginNakedjsxAssetImage /> */}
                 {/* <PluginNakedjsxAssetPrism /> */}

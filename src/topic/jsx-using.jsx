@@ -1,11 +1,11 @@
 export default
     () =>
-    <Topic name="Using JSX" path="jsx-using">
+    <Topic name="JSX Features" path="using-jsx">
         <p>JSX tags are a very useful way to keep your HTML fragments organised and reuseable.</p>
         
         <Topic name="Props and Children" path="props-and-children">
             <p>If you have used JSX before, props and children work as you would expect. For example:</p>
-            <Example captureOutput={['example', 'jsx-using-props-and-children']}>
+            <Example captureOutput={['example', 'using-jsx', 'props-and-children']}>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
@@ -93,7 +93,7 @@ Page.Render();`
                 to it later. One use case is to automatically build a table of contents as content sections are added:
             </p>
 
-            <Example captureOutput={['example', 'jsx-using-props-and-children']}>
+            <Example captureOutput={['example', 'using-jsx', 'refs']}>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
@@ -145,6 +145,156 @@ Page.Render();`
                 </p>
                 <p>The result:</p>
             </Example>
-            <p>This documentation page uses a similar approach.</p>
+            <p>This documentation uses a similar approach.</p>
+        </Topic>
+
+        <Topic name="Context" path="context" hideReturn>
+            <p>
+                Another useful feature allows parent and child elements to pass data to each other using
+                the built-in <Inline>context</Inline> prop.
+            </p>
+            <p>
+                In this example, a <Inline>Section</Inline> tag uses context to determine which
+                heading tag to use:
+            </p>
+
+            <Example captureOutput={['example', 'using-jsx', 'context']}>
+                <Example.Src lang="jsx" filename="src/tags.jsx">{
+`const Heading =
+    ({ depth, children, ...props }) =>
+    {
+        if (depth == 1)
+            return <h1 {...props}>{children}</h1>
+        if (depth == 2)
+            return <h2 {...props}>{children}</h2>
+        if (depth == 3)
+            return <h3 {...props}>{children}</h3>
+        if (depth == 4)
+            return <h4 {...props}>{children}</h4>
+        if (depth == 5)
+            return <h5 {...props}>{children}</h5>
+        else
+            return <h6 {...props}>{children}</h6>
+    }
+
+export const Section =
+    ({ title, path, context, children }) =>
+    {
+        // Start a depth of 2, and increment for each nested section.
+        context.depth = context.depth ? context.depth + 1 : 2;
+
+        return  <div css="margin-left: 32px">
+                    <Heading depth={context.depth}>{title}</Heading>
+                    {children}
+                </div>
+    }`
+                }</Example.Src>
+                <Example.Src lang="jsx" filename="src/index-page.jsx">{
+`import { Page } from '@nakedjsx/core/page'
+import { Section } from './tags.jsx'
+
+Page.Create('en');
+Page.AppendBody(
+    <>
+        <h1>Context</h1>
+        <Section title="h2: Section 1">
+            <Section title="h3: Section 1.1">
+                <Section title="h4: Section 1.1.1">
+                </Section>
+            </Section>
+            <Section title="h3: Section 1.2">
+            </Section>
+        </Section>
+        <Section title="h2: Section 2">
+        </Section>
+    </>
+);
+Page.Render();`
+                }</Example.Src>
+            </Example>
+            <p>
+                Note that <Inline lang="js">context.depth</Inline> is never directly decremented, and yet
+                the correct tags are used. This is because changes made to the context object itself are
+                never visible to parent elements.
+            </p>
+            <p>
+                However, there are cases in which it can useful for children to make data available to their
+                parents. Achieving this requires two things:
+            </p>
+            <ol>
+                <li>An object or array in the context for a child to modify, and</li>
+                <li>Forcing children to evaluate earlier than they normally would.</li>
+            </ol>
+            <p>
+                Here is an example of a <Inline>{'<Section>'}</Inline> tag that
+                recursively determines how many subsections it has:
+            </p>
+            <Example captureOutput={['example', 'using-jsx', 'context-evaluate-now']}>
+                <Example.Src lang="jsx" filename="src/tags.jsx">{
+`import { Page } from '@nakedjsx/core/page'
+
+export const Section =
+    ({ title, context, children }) =>
+    {
+        // Keep a reference to the parent counter
+        // so we can update it later
+        const parentCounter = context.counter;
+
+        // Provide a fresh counter to children
+        context.counter = { count: 0 };
+        
+        // Execute children tag implementations now
+        children = Page.EvaluateNow(children);
+
+        // Any children will have updated the
+        // context counter we provided
+        const subsectionCount = context.counter.count;
+
+        // If we are a child, set the parent count
+        if (parentCounter)
+            parentCounter.count += subsectionCount + 1;
+
+        const result =
+            <div css={'margin-left: 48px'}>
+                <strong>{title}</strong>
+                <p>
+                    This section has {subsectionCount} subsection{subsectionCount != 1 && 's'}.
+                </p>
+                {children}
+            </div>
+
+        return result;
+    }`
+                }</Example.Src>
+                <Example.Src lang="jsx" filename="src/index-page.jsx">{
+`import { Page } from '@nakedjsx/core/page'
+import { Section } from './tags.jsx'
+
+Page.Create('en');
+Page.AppendBody(
+    <>
+        <h1>Context (Evaluate Now)</h1>
+        <Section title="Section 1">
+            <Section title="Section 1.1">
+                <Section title="Section 1.1.1" />
+                <Section title="Section 1.1.2">
+                    <Section title="Section 1.1.2.1" />
+                </Section>
+            </Section>
+            <Section title="Section 1.2">
+            </Section>
+        </Section>
+        <Section title="Section 2">
+        </Section>
+    </>
+);
+Page.Render();`
+                }</Example.Src>
+            </Example>
+            <p>
+                A practical use of this feature can be seen
+                in <a href="https://github.com/NakedJSX/documentation/blob/main/src/example.jsx">{
+                `the <Example> tag`}</a> used to compile the examples in this documentation.
+            </p>
         </Topic>
     </Topic>
