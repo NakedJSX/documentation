@@ -1,6 +1,6 @@
 import { Page } from '@nakedjsx/core/page';
 
-import HelloNakedJSX from './topic/hello-nakedjsx.jsx';
+import GettingStarted from './topic/getting-started.jsx';
 import DevServer from './topic/dev-server.jsx';
 import JsxUsing from './topic/jsx-using.jsx';
 import CssScoped from './topic/css-scoped.jsx';
@@ -50,7 +50,7 @@ Page.AppendBody(
             <p>This page was built by NakedJSX. <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>You can look at the source</a>.</p>
             <Toc />
             <TopicList>
-                <HelloNakedJSX />
+                <GettingStarted />
                 <DevServer />
                 <JsxUsing />
                 <CssScoped />

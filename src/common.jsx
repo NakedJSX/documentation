@@ -8,19 +8,19 @@ export const Toc =
     <>
         <h2 id="toc">Topics</h2>
         <nav>
-            <p  ref={tocList}
-                css={`
-                    a {
-                        display: block
-                    }
-                `}
-            />
+            <p ref={tocList} />
         </nav>
     </>
 
 export const TocItem =
-    ({ linkId, name, path }) =>
-    <a id={linkId} href={`#${path}`}>{name}</a>
+    ({ linkId, depth, name, path }) =>
+    <>
+        {depth == 1
+            ? <a id={linkId} href={`#${path}`}>{name}</a>
+            : <a css={`font-size: 1rem; margin-left: ${(depth - 1) * 16}px`} id={linkId} href={`#${path}`}>{name}</a>}
+        <br />
+    </>
+    
 
 export const TopicList =
     ({ children }) =>
@@ -28,22 +28,49 @@ export const TopicList =
         {children}
     </>
 
-export const Topic =
-    ({ name, path, children }) =>
+const Heading =
+    ({ depth, children, ...props }) =>
     {
+        if (depth == 1)
+            return <h1 {...props}>{children}</h1>
+        if (depth == 2)
+            return <h2 {...props}>{children}</h2>
+        if (depth == 3)
+            return <h3 {...props}>{children}</h3>
+        if (depth == 4)
+            return <h4 {...props}>{children}</h4>
+        if (depth == 5)
+            return <h5 {...props}>{children}</h5>
+        if (depth == 2)
+            return <h6 {...props}>{children}</h6>
+        
+        throw Error('bad Heading depth: ' + depth);
+    }
+
+export const Topic =
+    ({ name, path, children, context }) =>
+    {
+        // Use context.depth to control nested topic behaviour
+        context.depth   = context.depth ? context.depth + 1 : 1;
+        context.path    = context.path ? `${context.path}-${path}` : path;
+
         const id        = Page.UniqueId();
         const copyId    = `${id}.copyId`;
         const targetId  = `${id}.targetId`;
 
-        tocList.appendJsx(<TocItem linkId={targetId} name={name} path={path} />);
+        tocList.appendJsx(<TocItem linkId={targetId} depth={context.depth} name={name} path={context.path} />);
 
         Page.AppendJs(hookupCopyToClipboard);
         Page.AppendJsCall(hookupCopyToClipboard.name, id, 'href');
 
         return  <>
-                    <h2 id={path} css="* { font-size: 0.875rem }">{name} <button id={copyId} className="link">(copy link)</button></h2>
+                    <Heading    id={context.path}
+                                depth={context.depth + 1}
+                                css="display: flex; justify-content: space-between; * { font-size: 0.875rem }"
+                                >{name} <button id={copyId} className="link">(copy link)</button>
+                    </Heading>
                     {children}
-                    <a href="#toc">↑ Return to list of topics</a>
+                    {context.depth == 1 && <p><a href="#toc">↑ Return to list of topics</a></p>}
                 </>
     }
 
@@ -86,9 +113,13 @@ export const Code =
                         <p css={
                            `margin-bottom: var(--gap-three-eighths);
                             padding-left: var(--gap-half);
-                            font-size: 0.875rem;`
+                            font-size: 0.875rem;
+
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;`
                         }>
-                            <Fixed>{title}</Fixed>
+                            <span css="flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"><Fixed>{title}</Fixed></span>
                             {uri            && <> <a target={uriTarget} href={uri}>{uriText}</a></>}
                             {copyCodeLink   && <> <button id={copyId } className="link">(copy code)</button></>}
                         </p>}
@@ -121,13 +152,24 @@ function hookupCopyToClipboard(id, attribute)
                 if (oldFeedback)
                     oldFeedback.remove();
 
-                const e = <span id={feedbackId} css="opacity: 0; animation: fadeOut ease 1500ms;">{content}</span>;
-                parent.insertBefore(e, event.target.nextSibling);
+                const e =
+                    <div id={feedbackId} css="position: relative">
+                        <span css={
+                           `position: absolute;
+                            bottom: 1rem;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            opacity: 0;
+                            animation: fadeOut ease 1500ms;`
+                        }>{content}</span>
+                    </div>;
+
+                target.appendChild(e);
 
                 setTimeout(() => e.remove(), 1500);
             }
             
-            navigator.clipboard.writeText(content).then(() => feedback(' ✅'), () => feedback(' ❌'));
+            navigator.clipboard.writeText(content).then(() => feedback('✅'), () => feedback('❌'));
         };
 };
 

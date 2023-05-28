@@ -3,7 +3,7 @@ export default
     <Topic name="Client Javascript JSX" path="client-javascript-jsx">
         <p>
             NakedJSX client JavaScript can also use JSX. Props are supported, as are
-            scoped and nested CSS. Extracted 0CSS classes are deduplicated with those used by the HTML.
+            scoped and nested CSS. Extracted CSS classes are deduplicated with those used by the HTML.
         </p>
         <p>
             Files matching the pattern <Fixed nowrap>*-client.mjs</Fixed> are automatically
