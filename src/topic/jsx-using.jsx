@@ -148,7 +148,7 @@ Page.Render();`
             <p>This documentation uses a similar approach.</p>
         </Topic>
 
-        <Topic name="Context" path="context" hideReturn>
+        <Topic name="Context" path="context">
             <p>
                 Another useful feature allows parent and child elements to pass data to each other using
                 the built-in <Inline>context</Inline> prop.
@@ -223,11 +223,13 @@ Page.Render();`
             </p>
             <ol>
                 <li>An object or array in the context for a child to modify, and</li>
-                <li>Forcing children to evaluate earlier than they normally would.</li>
+                <li>A way to control when children are evaluated.</li>
             </ol>
             <p>
                 Here is an example of a <Inline>{'<Section>'}</Inline> tag that
-                recursively determines how many subsections it has:
+                adds a 'Back to top' link at the end of each section that has no subsections.
+                This avoids, for example, a top level section with one child section adding
+                two consequative 'Return to Top' links to the page.
             </p>
             <Example captureOutput={['example', 'using-jsx', 'context-evaluate-now']}>
                 <Example.Src lang="jsx" filename="src/tags.jsx">{
@@ -236,31 +238,32 @@ Page.Render();`
 export const Section =
     ({ title, context, children }) =>
     {
-        // Keep a reference to the parent counter
-        // so we can update it later
-        const parentCounter = context.counter;
+        // If a parent section provided context,
+        // let it know it has a subsection.
+        if (context.has)
+            context.has.subsection = true;
 
-        // Provide a fresh counter to children
-        context.counter = { count: 0 };
-        
-        // Execute children tag implementations now
+        // Provide a context to child sections
+        context.has = { subsection: false };
+
+        // Evaluate children tags immediately.
+        // After this, context.has.children is valid.
         children = Page.EvaluateNow(children);
-
-        // Any children will have updated the
-        // context counter we provided
-        const subsectionCount = context.counter.count;
-
-        // If we are a child, set the parent count
-        if (parentCounter)
-            parentCounter.count += subsectionCount + 1;
 
         const result =
             <div css={'margin-left: 48px'}>
                 <strong>{title}</strong>
                 <p>
-                    This section has {subsectionCount} subsection{subsectionCount != 1 && 's'}.
+                    This section has {
+                        context.has.subsection
+                            ? 'at least one subsection.'
+                            : 'no subsections.'
+                    }
                 </p>
                 {children}
+                {!context.has.subsection &&
+                    <p><a href="#top">Back to Top.</a></p>
+                }
             </div>
 
         return result;
@@ -273,7 +276,7 @@ import { Section } from './tags.jsx'
 Page.Create('en');
 Page.AppendBody(
     <>
-        <h1>Context (Evaluate Now)</h1>
+        <h1 id="top">Context (Evaluate Now)</h1>
         <Section title="Section 1">
             <Section title="Section 1.1">
                 <Section title="Section 1.1.1" />
@@ -292,9 +295,9 @@ Page.Render();`
                 }</Example.Src>
             </Example>
             <p>
-                A practical use of this feature can be seen
-                in <a href="https://github.com/NakedJSX/documentation/blob/main/src/example.jsx">{
-                `the <Example> tag`}</a> used to compile the examples in this documentation.
+                A another use of this feature can be seen
+                in the <a href="https://github.com/NakedJSX/documentation/blob/main/src/example.jsx">{
+                `<Example>`}</a> tag used to compile the examples in this documentation.
             </p>
         </Topic>
     </Topic>
