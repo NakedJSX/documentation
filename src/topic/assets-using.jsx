@@ -43,7 +43,7 @@ Page.Render();`
             </Example>
         </Topic>
         
-        <Topic name="Raw Asset Content" path="raw" hideReturn>
+        <Topic name="Raw Asset Content" path="raw">
             <p>
                 Sometimes it is desireable to embed the content of an asset itself in your page JS,
                 as this can save a round trip to the server. NakedJSX includes a <Inline>:raw:</Inline> import

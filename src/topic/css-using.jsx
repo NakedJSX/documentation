@@ -84,7 +84,7 @@ export default
             </p>
         </Topic>
 
-        <Topic name="Common CSS File" path="common" hideReturn>
+        <Topic name="Common CSS File" path="common">
             <p>
                 Document default CSS and common utility classes can be placed in a common CSS file
                 that is added to all pages. This requires building with an additional flag:

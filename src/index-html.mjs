@@ -1,12 +1,10 @@
 import { Page } from '@nakedjsx/core/page';
 
 import GettingStarted from './topic/getting-started.jsx';
-import DevServer from './topic/dev-server.jsx';
 import JsxUsing from './topic/jsx-using.jsx';
 import CssUsing from './topic/css-using.jsx';
 
 import AssetsUsing from './topic/assets-using.jsx';
-import ConfigFile from './topic/config-file.jsx';
 import PagesDynamic from './topic/pages-dynamic.jsx';
 import ClientJsIntroduction from './topic/client-js-introduction.jsx';
 import ClientJsJsx from './topic/client-js-jsx.jsx';
@@ -43,13 +41,11 @@ Page.AppendBody(
     <>
         <main>
             <h1><raw-content content={logo} /> Documentation</h1>
-            <p>NakedJSX builds static HTML files from JavaScript and JSX.</p>
+            <p>NakedJSX builds static HTML websites from JavaScript and JSX.</p>
             <p>This page was built by NakedJSX. <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>You can look at the source</a>.</p>
             <Toc />
             <TopicList>
                 <GettingStarted />
-                <DevServer />
-                <ConfigFile />
                 <JsxUsing />
                 <CssUsing />
                 <AssetsUsing />

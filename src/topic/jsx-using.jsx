@@ -1,8 +1,6 @@
 export default
     () =>
     <Topic name="JSX Features" path="using-jsx">
-        <p>JSX tags are a very useful way to keep your HTML fragments organised and reuseable.</p>
-        
         <Topic name="Props and Children" path="props-and-children">
             <p>If you have used JSX before, props and children work as you would expect. For example:</p>
             <Example captureOutput={['example', 'using-jsx', 'props-and-children']}>
@@ -29,13 +27,14 @@ Page.AppendBody(
 );
 Page.Render();`
                 }</Example.Src>
-                <p>is rendered as:</p>
+                <p>is rendered as follows:</p>
+                <Example.BuildCmd />
             </Example>
         </Topic>
 
         <Topic name="Fragments" path="fragments">
             <p>
-                Note the <Inline>{`<>`}</Inline> ... <Inline>{`</>`}</Inline> JSX 'fragment' syntax.
+                Note the <Inline lang="jsx">{`<>`}</Inline> ... <Inline lang="jsx">{`</>`}</Inline> JSX 'fragment' syntax.
                 Fragments allow a flat list of JSX elements to be passed around in code in the same
                 way that a single element can be.
             </p>
