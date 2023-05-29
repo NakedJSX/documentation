@@ -63,16 +63,16 @@ export const Topic =
 
         //
         // At each level, determine if there are subtopics.
-        // We'll omit the back to top link if we have subtopics to avoid multiples.
+        // We'll omit the back to top link if we have subtopics,
+        // as this avoids multiples.
         //
 
-        const parentHas = context.has;
+        if (context.has)
+            context.has.subtopics = true;
+
         context.has = { subtopics: false };
 
         children = Page.EvaluateNow(children);
-
-        if (parentHas)
-            parentHas.subtopics = true;
 
         return  <>
                     <Heading    id={context.path}
