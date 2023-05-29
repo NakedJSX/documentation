@@ -46,7 +46,7 @@ const Heading =
     }
 
 export const Topic =
-    ({ name, path, hideReturn, children, context }) =>
+    ({ name, path, children, context }) =>
     {
         // Use context.depth to control nested topic behaviour
         context.depth   = context.depth ? context.depth + 1 : 1;
@@ -60,6 +60,19 @@ export const Topic =
 
         Page.AppendJs(hookupCopyToClipboard);
         Page.AppendJsCall(hookupCopyToClipboard.name, id, 'href');
+
+        //
+        // At each level, determine if there are subtopics.
+        // We'll omit the back to top link if we have subtopics to avoid multiples.
+        //
+
+        const parentHas = context.has;
+        context.has = { subtopics: false };
+
+        children = Page.EvaluateNow(children);
+
+        if (parentHas)
+            parentHas.subtopics = true;
 
         return  <>
                     <Heading    id={context.path}
@@ -77,7 +90,7 @@ export const Topic =
                         {name} <button id={copyId} className="link">(copy link)</button>
                     </Heading>
                     {children}
-                    {!hideReturn && <p><a href="#toc">↑ Return to list of topics</a></p>}
+                    {!context.has.subtopics && <p><a href="#toc">↑ Return to list of topics</a></p>}
                 </>
     }
 
