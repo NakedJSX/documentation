@@ -176,15 +176,15 @@ export const Example =
                             {
                                 const uriPath = relativePathToUriPath(path.join(captureOutput, filename));
 
-                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open page in new tab)">{
-                                            content
-                                        }</Code>
+                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(view page in new tab)">{content}</Code>
+                            }
+                            else if(lang === 'css' || lang === 'js')
+                            {
+                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title}>{content}</Code>
                             }
                             else
                             {
-                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title}>{
-                                            content
-                                        }</Code>
+                                return  <Code title={title}>(no preview available)</Code>
                             }
                         }
                         )}
@@ -192,20 +192,26 @@ export const Example =
     }
 
 Example.BuildCmd =
-    ({ context, children }) =>
+    ({ context }) =>
     {
         return <Code lang="shell" title="# build:" copyLink="(copy cmd)">$ {context.buildCommand}</Code>
     }
 
-let exampleCodeIndex = 0;
-
 Example.Src =
-    ({ hidden, lang, filename, context, children }) =>
+    ({ hidden, lang, filename, context, content, children }) =>
     {
-        const content = children[0];
+        //
+        // A source can be supplied as a single string child,
+        // or as a string or Buffer content prop.
+        //
 
-        if (children.length != 1 || typeof content != 'string')
-            throw Error(`Example.Src tag requires a single string child to set as file contents of ${filename}`);
+        if (!content)
+        {
+            if (children.length != 1 || typeof children[0] != 'string')
+                throw Error(`Example.Src tag requires either a content prop or single string child to set as file contents of ${filename}`);
+
+            content = children[0];
+        }
         
         //
         // Pass the code back to the <Example> tag via context
@@ -218,7 +224,12 @@ Example.Src =
                 content
             };
 
-        if (!hidden)
-            return <Code lang={lang} title={filename} copyLink="(copy code)">{children[0]}</Code>
+        if (hidden)
+            return;
+        
+        if (typeof content === 'string')
+            return <Code lang={lang} title={filename} copyLink="(copy code)">{content}</Code>
+        else
+            return <Code title={filename}>(no preview available)</Code>
     }
 

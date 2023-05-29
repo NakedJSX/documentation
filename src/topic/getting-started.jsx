@@ -21,7 +21,7 @@ export default
             Each matching file is compiled and then executed to produce a HTML file in an output directory.
         </p>
         <p>Here is a near-minimal NakedJSX project. It consists of one file in an otherwise empty directory:</p>
-        <Example captureOutput={['example', 'getting-started']}>
+        <Example captureOutput={['example', 'hello-world', 'pretty']}>
             <Example.Src lang="jsx" filename="src/index-page.jsx">{
                 exampleSource
             }</Example.Src>
@@ -30,7 +30,7 @@ export default
             <p>This tells NakedJSX to look for pages to build in the 'src' directory, build them into a 'out' directory, and to format the generated files nicely.</p>
             <p>The result in this case is a single new file:</p>
         </Example>
-        <Example buildFlags={[]} wordwrapOutput captureOutput={['example', 'getting-started-dist']}>
+        <Example buildFlags={[]} wordwrapOutput captureOutput={['example', 'hello-world', 'dist']}>
             <Example.Src hidden lang="jsx" filename="src/index-page.jsx">{
                 exampleSource
             }</Example.Src>

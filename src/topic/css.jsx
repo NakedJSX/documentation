@@ -89,7 +89,7 @@ export default
                 Document default CSS and common utility classes can be placed in a common CSS file
                 that is added to all pages. This requires building with an additional flag:
             </p>
-            <Example buildFlags={['--pretty', '--css-common', 'src/style.css']} captureOutput={['example', 'css', 'getting-started-dist']}>
+            <Example buildFlags={['--pretty', '--css-common', 'src/style.css']} captureOutput={['example', 'css', 'common']}>
                 <Example.Src lang="css" filename="src/style.css">{
 `html {
     font-family: sans-serif;

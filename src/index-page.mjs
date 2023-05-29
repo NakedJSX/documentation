@@ -4,14 +4,11 @@ import GettingStarted from './topic/getting-started.jsx';
 import JsxUsing from './topic/jsx.jsx';
 import CssUsing from './topic/css.jsx';
 import Assets from './topic/assets.jsx';
-import ClientJsIntroduction from './topic/client-js-introduction.jsx';
-import ClientJsJsx from './topic/client-js-jsx.jsx';
+import ClientJs from './topic/client-js.jsx';
+import Plugins from './topic/plugins.jsx';
 
 import PagesDynamic from './topic/pages-dynamic.jsx';
 import DefinitionInjection from './topic/definition-injection.jsx';
-import PluginNakedjsxAssetImage from './topic/plugin-nakedjsx-asset-image.jsx';
-import PluginNakedjsxAssetPrism from './topic/plugin-nakedjsx-asset-prism.jsx';
-import PluginCustomAsset from './topic/plugin-custom-asset.jsx';
 
 import { Toc, TopicList, Topic, Fixed, Code, Inline, Analytics } from './common.jsx';
 import { Example } from './example.jsx';
@@ -41,21 +38,19 @@ Page.AppendBody(
     <>
         <main>
             <h1><raw-content content={logo} /> Documentation</h1>
-            <p>Here you will find a detailed walkthrough of NakedJSX features. For a high level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</p>
-            <p>This page was built by NakedJSX. <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>You can look at the source project</a>.</p>
+            <p>Here you will find a detailed walkthrough of NakedJSX features.</p>
+            <p>For a high-level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</p>
+            <p>This page was built by NakedJSX, <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>and you can look its source</a>.</p>
             <Toc />
             <TopicList>
                 <GettingStarted />
                 <JsxUsing />
                 <CssUsing />
                 <Assets />
-                <ClientJsIntroduction />
-                <ClientJsJsx />
+                <ClientJs />
                 {/* <PagesDynamic /> */}
                 {/* <DefinitionInjection /> */}
-                {/* <PluginNakedjsxAssetImage /> */}
-                {/* <PluginNakedjsxAssetPrism /> */}
-                {/* <PluginCustomAsset /> */}
+                <Plugins />
             </TopicList>
         </main>
     </>
