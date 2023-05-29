@@ -194,7 +194,7 @@ export const Example =
 Example.BuildCmd =
     ({ context, children }) =>
     {
-        return <Code lang="shell">$ {context.buildCommand}</Code>
+        return <Code lang="shell" title="# build:" copyLink="(copy cmd)">$ {context.buildCommand}</Code>
     }
 
 let exampleCodeIndex = 0;
@@ -219,6 +219,6 @@ Example.Src =
             };
 
         if (!hidden)
-            return <Code lang={lang} title={filename} copyCodeLink>{children[0]}</Code>
+            return <Code lang={lang} title={filename} copyLink="(copy code)">{children[0]}</Code>
     }
 

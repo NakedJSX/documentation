@@ -1,9 +1,24 @@
 export default
     () =>
-    <Topic name="JSX Features" path="using-jsx">
+    <Topic name="JSX" path="jsx">
+
+        <p>
+            JSX is a HTML-like extension to the JavaScript language, and all due respect
+            must be paid to the people at Meta who designed it. It's a fabulous way to
+            create reusable HTML templates.
+        </p>
+        <p>
+            For those not familiar, Meta's legacy <a href="https://legacy.reactjs.org/docs/introducing-jsx.html">Introducing JSX</a> page
+            serves as a good introduction to JSX itself. One difference in NakedJSX is that JSX elements compile down
+            to <Inline>__nakedjsx__createElement()</Inline>, not <Inline>React.createElement()</Inline>, but this detail is largely
+            irrelevent.
+        </p>
+
+        {/* TODO: An overview of JSX itself without confusing the reader by talking about React components */}
+
         <Topic name="Props and Children" path="props-and-children">
             <p>If you have used JSX before, props and children work as you would expect. For example:</p>
-            <Example captureOutput={['example', 'using-jsx', 'props-and-children']}>
+            <Example captureOutput={['example', 'jsx', 'props-and-children']}>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
@@ -30,6 +45,9 @@ Page.Render();`
                 <p>is rendered as follows:</p>
                 <Example.BuildCmd />
             </Example>
+            <p>
+                Note how the <Inline>{'<Section>'}</Inline> implementation was able to dynamically set the heading title and selectively place its children.
+            </p>
         </Topic>
 
         <Topic name="Fragments" path="fragments">
@@ -38,14 +56,18 @@ Page.Render();`
                 Fragments allow a flat list of JSX elements to be passed around in code in the same
                 way that a single element can be.
             </p>
+            <p>
+                Essentially, a tag implementation needs to return either a single top level element like a <Inline lang="jsx">{`<div>`}</Inline>, or a fragment.
+                The returned element / frament can itself have as many children as you like.
+            </p>
         </Topic>
 
         <Topic name="Exporting and Importing" path="exporting-and-importing">
             <p>
                 JSX tags compile down to functions, and you can export and import them like any other function.
-                A refactored version of the above example might be split into two files like this:
+                A refactored version of the previous example might be split into two files like this:
             </p>
-            <Code lang="jsx" title="src/common.jsx" copyCodeLink>{
+            <Code lang="jsx" title="src/common.jsx" copyLink="(copy code)">{
 `export const Section =
     ({ title, children }) =>
     <>
@@ -53,7 +75,7 @@ Page.Render();`
         {children}
     </>`
             }</Code>
-            <Code lang="jsx" title="src/index-page.jsx" copyCodeLink>{
+            <Code lang="jsx" title="src/index-page.jsx" copyLink="(copy code)">{
 `import { Page } from '@nakedjsx/core/page'
 import { Section } from './common.jsx'
 
@@ -75,8 +97,8 @@ Page.Render();`
         </Topic>
 
         <Topic name="Conditional Rendering" path="conditional-rendering">
-            <p>The usual JSX conditional rendering tricks work. In the following example, the <Inline lang="jsx">{`<h2>`}</Inline> title will only render if a title prop is supplied:</p>
-            <Code lang="jsx" title="src/common.jsx" copyCodeLink>{
+            <p>The usual JSX conditional rendering tricks work. In the following example, the <Inline lang="jsx">{`<h2>`}</Inline> title will only render if a title prop is supplied on the <Inline lang="jsx">{`<Section>`}</Inline> tag:</p>
+            <Code lang="jsx" title="src/common.jsx" copyLink="(copy code)">{
 `export const Section =
     ({ title, children }) =>
     <>
@@ -89,10 +111,10 @@ Page.Render();`
         <Topic name="Refs" path="refs">
             <p>
                 There are times when it is helpful to capture a reference to a created element, and add more children
-                to it later. One use case is to automatically build a table of contents as content sections are added:
+                to it later. One use case is to build a table of contents as content is added below:
             </p>
 
-            <Example captureOutput={['example', 'using-jsx', 'refs']}>
+            <Example captureOutput={['example', 'jsx', 'refs']}>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
@@ -136,7 +158,7 @@ Page.Render();`
                 }</Example.Src>
                 <p>
                     A Ref is created by calling <Inline lang="js">Page.RefCreate()</Inline>, and it is later bound to
-                    the <Inline lang="jsx">{`<ul>`}</Inline> element by passing it as a <Inline>ref</Inline> prop value.
+                    the <Inline lang="jsx">{`<ul>`}</Inline> element by passing it as a <Inline>ref</Inline> prop.
                 </p>
                 <p>
                     Then, as each Section tag is created, a new TocEntry is added to
@@ -144,12 +166,12 @@ Page.Render();`
                 </p>
                 <p>The result:</p>
             </Example>
-            <p>This documentation uses a similar approach.</p>
+            <p>This documentation uses a similar approach to build the topic list.</p>
         </Topic>
 
-        <Topic name="Context" path="context">
+        <Topic name="Context - Parent to Child" path="context">
             <p>
-                Another useful feature allows parent and child elements to pass data to each other using
+                Another useful feature allows parent elements to pass data to child elements using
                 the built-in <Inline>context</Inline> prop.
             </p>
             <p>
@@ -157,7 +179,7 @@ Page.Render();`
                 heading tag to use:
             </p>
 
-            <Example captureOutput={['example', 'using-jsx', 'context']}>
+            <Example captureOutput={['example', 'jsx', 'context']}>
                 <Example.Src lang="jsx" filename="src/tags.jsx">{
 `const Heading =
     ({ depth, children, ...props }) =>
@@ -213,15 +235,17 @@ Page.Render();`
             </Example>
             <p>
                 Note that <Inline lang="js">context.depth</Inline> is never directly decremented, and yet
-                the correct tags are used. This is because changes made to the context object itself are
+                the correct heading tag is used in each case. This is because changes made to the context object itself are
                 never visible to parent elements.
             </p>
+        </Topic>
+        <Topic name="Context - Child to Parent" path="child-to-parent">
             <p>
-                However, there are cases in which it can useful for children to make data available to their
+                There are cases in which it is useful for children to make data available to their
                 parents. Achieving this requires two things:
             </p>
             <ol>
-                <li>An object or array in the context for a child to modify, and</li>
+                <li>A mutable object or array in the parent context, and</li>
                 <li>A way to control when children are evaluated.</li>
             </ol>
             <p>
@@ -230,7 +254,7 @@ Page.Render();`
                 This avoids, for example, a top level section with one child section adding
                 two consequative 'Return to Top' links to the page.
             </p>
-            <Example captureOutput={['example', 'using-jsx', 'context-evaluate-now']}>
+            <Example captureOutput={['example', 'jsx', 'context-evaluate-now']}>
                 <Example.Src lang="jsx" filename="src/tags.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 

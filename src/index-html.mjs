@@ -1,13 +1,13 @@
 import { Page } from '@nakedjsx/core/page';
 
 import GettingStarted from './topic/getting-started.jsx';
-import JsxUsing from './topic/jsx-using.jsx';
-import CssUsing from './topic/css-using.jsx';
-
-import AssetsUsing from './topic/assets-using.jsx';
-import PagesDynamic from './topic/pages-dynamic.jsx';
+import JsxUsing from './topic/jsx.jsx';
+import CssUsing from './topic/css.jsx';
+import Assets from './topic/assets.jsx';
 import ClientJsIntroduction from './topic/client-js-introduction.jsx';
 import ClientJsJsx from './topic/client-js-jsx.jsx';
+
+import PagesDynamic from './topic/pages-dynamic.jsx';
 import DefinitionInjection from './topic/definition-injection.jsx';
 import PluginNakedjsxAssetImage from './topic/plugin-nakedjsx-asset-image.jsx';
 import PluginNakedjsxAssetPrism from './topic/plugin-nakedjsx-asset-prism.jsx';
@@ -41,14 +41,14 @@ Page.AppendBody(
     <>
         <main>
             <h1><raw-content content={logo} /> Documentation</h1>
-            <p>NakedJSX builds static HTML websites from JavaScript and JSX.</p>
-            <p>This page was built by NakedJSX. <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>You can look at the source</a>.</p>
+            <p>Here you will find a detailed walkthrough of NakedJSX features. For a high level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</p>
+            <p>This page was built by NakedJSX. <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>You can look at the source project</a>.</p>
             <Toc />
             <TopicList>
                 <GettingStarted />
                 <JsxUsing />
                 <CssUsing />
-                <AssetsUsing />
+                <Assets />
                 <ClientJsIntroduction />
                 <ClientJsJsx />
                 {/* <PagesDynamic /> */}

@@ -3,7 +3,7 @@ import { Example } from "../example.jsx";
 
 export default
     () =>
-    <Topic name="CSS Features" path="using-css">
+    <Topic name="CSS" path="css">
         <p>
             NakedJSX is CSS aware and places all CSS used by a page into an
             inline <Inline lang="jsx">{'<style>'}</Inline> in the document head.
@@ -14,7 +14,7 @@ export default
                 If two different JSX tags contain equivalent CSS, they will
                 share a class in the final output:
             </p>
-            <Example captureOutput={['example', 'using-css', 'scoped']}>
+            <Example captureOutput={['example', 'css', 'scoped']}>
                 <Example.Src lang="jsx" filename="src/index-page.mjs">{
     `import { Page } from '@nakedjsx/core/page'
 
@@ -47,7 +47,7 @@ export default
                 NakedJSX supports <a href="https://www.w3.org/TR/css-nesting-1/">CSS nesting</a> syntax,
                 with automatic conversion to browser compatible CSS:
             </p>
-            <Example captureOutput={['example', 'using-css', 'nested']}>
+            <Example captureOutput={['example', 'css', 'nested']}>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{
     `import { Page } from '@nakedjsx/core/page'
 
@@ -89,7 +89,7 @@ export default
                 Document default CSS and common utility classes can be placed in a common CSS file
                 that is added to all pages. This requires building with an additional flag:
             </p>
-            <Example buildFlags={['--pretty', '--css-common', 'src/style.css']} captureOutput={['example', 'using-css', 'getting-started-dist']}>
+            <Example buildFlags={['--pretty', '--css-common', 'src/style.css']} captureOutput={['example', 'css', 'getting-started-dist']}>
                 <Example.Src lang="css" filename="src/style.css">{
 `html {
     font-family: sans-serif;

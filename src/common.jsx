@@ -111,13 +111,13 @@ export const Inline =
     }
 
 export const Code =
-    ({ lang, title, wordwrap, uri, uriTarget, uriText, copyCodeLink, children }) =>
+    ({ lang, title, wordwrap, uri, uriTarget, uriText, copyLink, children }) =>
     {
         // If these don't get defined, the resulting nodes won't have an id
         let copyId;
         let targetId;
 
-        if (copyCodeLink)
+        if (copyLink)
         {
             const id = Page.UniqueId();
 
@@ -129,7 +129,7 @@ export const Code =
         }
         
         return  <>
-                    {title &&
+                    {(title || uri || copyLink) &&
                         <p css={
                            `margin-bottom: var(--gap-three-eighths);
                             padding-left: var(--gap-half);
@@ -139,9 +139,9 @@ export const Code =
                             justify-content: space-between;
                             align-items: center;`
                         }>
-                            <span css="flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"><Fixed>{title}</Fixed></span>
-                            {uri            && <> <a target={uriTarget} href={uri}>{uriText}</a></>}
-                            {copyCodeLink   && <> <button id={copyId } className="link">(copy code)</button></>}
+                            <span css="flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{title && <Fixed>{title}</Fixed>}</span>
+                            {uri        && <> <a target={uriTarget} href={uri}>{uriText}</a></>}
+                            {copyLink   && <> <button id={copyId } className="link">{copyLink}</button></>}
                         </p>}
                     <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={targetId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
                 </>
