@@ -108,7 +108,7 @@ Page.AppendHead(
     );
 Page.AppendBody(
     <>
-        <h1>@nakedjsx/plugin-asset-image</h1>
+        <h1>@nakedjsx/plugin-asset-prism</h1>
         <p>Try changing between light and dark mode in your OS settings.</p>
         <p>Here is the source code of this Example:</p>
         <Code lang="jsx">{selfSource}</Code>
