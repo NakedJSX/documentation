@@ -8,7 +8,7 @@ export const Toc =
     <>
         <h2 id="toc">Topics</h2>
         <nav>
-            <p ref={tocList} />
+            <p ref={tocList} css="line-height: 1.75"/>
         </nav>
     </>
 
@@ -17,7 +17,7 @@ export const TocItem =
     <>
         {depth == 1
             ? <a id={linkId} href={`#${path}`}>{name}</a>
-            : <a css={`font-size: 1rem; margin-left: ${(depth - 1) * 16}px`} id={linkId} href={`#${path}`}>{name}</a>}
+            : <a css={`margin-left: ${(depth - 1) * 16}px`} id={linkId} href={`#${path}`}>{name}</a>}
         <br />
     </>
     

@@ -47,7 +47,7 @@ Page.AppendBody(
             <h1><raw-content content={logo} /> Documentation</h1>
             <p>Here you will find a detailed walkthrough of NakedJSX features.</p>
             <p>For a high-level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</p>
-            <p>This page was built by NakedJSX, <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>and you can look its source</a>.</p>
+            <p>This page was built using NakedJSX, <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>and you can look its source</a>.</p>
             <Toc />
             <TopicList>
                 <GettingStarted />
