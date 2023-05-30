@@ -71,8 +71,11 @@ export default
         </Topic>
 
         <Topic name="Terminology" path="terminology">
-            <p>
-                Much of the underlying functionality is performed by 
-            </p>
+            <dl>
+                <dt>Page JavaScript</dt>
+                <dd>The JavaScript (and JSX) used at build-time to produce HTML files.</dd>
+                <dt>Client JavaScript</dt>
+                <dd>JavaScript that runs in the browser.</dd>
+            </dl>
         </Topic>
     </Topic>
