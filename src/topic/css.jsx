@@ -79,9 +79,27 @@ export default
                 Raw CSS can be added by passing a string containing CSS to the <Inline lang="js">Page.AppendCss()</Inline> function.
             </p>
             <p>
-                This is particularly useful for incorporating CSS imported from a file as a raw asset,
-                and is how the Prism code formatting theme is added to this documentation.
+                This is particularly useful for incorporating CSS imported from a file as a raw asset.
             </p>
+            <Example captureOutput={['example', 'css', 'page-append-css']}>
+                <Example.Src lang="jsx" filename="src/index-page.mjs">{
+    `import { Page } from '@nakedjsx/core/page'
+
+    Page.Create('en');
+    Page.AppendCss(\`
+        html {
+            font-family: sans-serif;
+        }
+        \`);
+    Page.AppendBody(
+        <>
+            <h1>Phew.</h1>
+            <p>Those yucky serifs are gone.</p>
+        </>
+    );
+    Page.Render();`
+                }</Example.Src>
+            </Example>
         </Topic>
 
         <Topic name="Common CSS File" path="common">
