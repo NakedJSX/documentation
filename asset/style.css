@@ -99,6 +99,11 @@ h2 {
 }
 h3, h4, h5, h6 {
     font-weight: 500;
+    font-size: 1.25rem;
+    border-bottom: 1px solid var(--soft-border-color);
+}
+dt {
+    font-weight: 500;
     font-size: 1.125rem;
     border-bottom: 1px solid var(--soft-border-color);
 }
@@ -136,6 +141,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 p, ul, ol, dl, pre {
     margin: var(--gap) 0;
+}
+dt {
+    margin-top: var(--gap);
 }
 h1 > svg {
     display: inline;
