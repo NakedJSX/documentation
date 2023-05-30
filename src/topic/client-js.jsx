@@ -180,7 +180,7 @@ Page.Render();`
 
 <Topic name={'Adding via Inline Event Handlers'} path="on-event-handler">
     <p>
-        Finally, it's possible to add client JavaScript using classic inline event handlers on JSX elements:
+        It's also possible, and quite clean, to add client JavaScript using classic inline event handlers on JSX elements:
     </p>
     <Example captureOutput={['example', 'client-js', 'inline-event-handler']}>
         <Example.Src lang="javascript" filename="src/index-page.jsx">{
