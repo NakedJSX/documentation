@@ -10,7 +10,7 @@ import Plugins from './topic/plugins.jsx';
 import PagesDynamic from './topic/pages-dynamic.jsx';
 import DefinitionInjection from './topic/definition-injection.jsx';
 
-import { Toc, TopicList, Topic, Fixed, Code, Inline, Tag, Analytics } from './common.jsx';
+import { Toc, TopicList, Topic, Fixed, Code, Inline, Inset, Tag, Analytics } from './common.jsx';
 import { Example } from './example.jsx';
 
 import logo from ':raw:$ASSET/logo.svg';
@@ -46,7 +46,7 @@ Page.AppendBody(
         <main>
             <h1><raw-content content={logo} /> Documentation</h1>
             <p>Here you will find a detailed walkthrough of NakedJSX features.</p>
-            <p>For a high-level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</p>
+            <Inset>For a high-level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</Inset>
             <p>This page was built using NakedJSX, <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>and you can look its source</a>.</p>
             <Toc />
             <TopicList>

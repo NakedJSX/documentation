@@ -7,9 +7,9 @@ export const Toc =
     () =>
     <>
         <h2 id="toc">Topics</h2>
-        <nav>
-            <p ref={tocList} css="line-height: 1.75"/>
-        </nav>
+        <Inset>
+            <nav ref={tocList} css="line-height: 1.75" />
+        </Inset>
     </>
 
 export const TocItem =
@@ -196,6 +196,15 @@ function hookupCopyToClipboard(id, attribute)
             navigator.clipboard.writeText(content).then(() => feedback('✅'), () => feedback('❌'));
         };
 };
+
+export const Inset =
+    ({ children }) =>
+    <div css={`
+        padding: var(--gap-three-eighths-2) var(--gap);
+        background-color: var(--code-bg-color);
+    `}>
+        {children}
+    </div>
 
 export const Analytics =
     () =>

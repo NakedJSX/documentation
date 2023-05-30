@@ -159,14 +159,22 @@ export const Example =
             exampleBuildCache.set(cacheKey, result);
         }
 
-        function truncate(content)
+        function truncateIfNeeded(content)
         {
-            const limit = 2000;
+            const charLimit = 2000;
+            const lineLimit = 60;
+            const truncatedSuffix = '...\n\n(content too large to display in full)';
 
-            if (content.length <= limit)
-                return content;
+            if (content.length > charLimit)
+                content = content.substring(0, charLimit - truncatedSuffix.length) + truncatedSuffix;
+
+            let lineCount = 1;
+            for(var i = 0; i < content.length; ++i)
+                if(content[i] === '\n')
+                    if (++lineCount >= lineLimit)
+                        return content.substring(0, i + 1) + truncatedSuffix;
             
-            return content.substring(0, limit) + '...\n\n(content too large to display in full)';
+            return content;
         }
 
         return  <>
@@ -182,28 +190,18 @@ export const Example =
 
                             const title = 'out/' + relativePathToUriPath(filename);
 
-                            if (lang === 'html' && captureOutput)
+                            if (captureOutput)
                             {
                                 const uriPath = relativePathToUriPath(path.join(captureOutput, filename));
 
-                                // console.log(`Output: ${title} is ${content.length} characters`);
-                                content = truncate(content);
+                                if (lang === 'html' || lang === 'css' || lang === 'js')
+                                    content = truncateIfNeeded(content);
+                                else
+                                    content = '(no preview available)';
 
-                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open in new tab)">{content}</Code>
+                                return <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open in new tab)">{content}</Code>
                             }
-                            else if(lang === 'css' || lang === 'js')
-                            {
-                                // console.log(`Output: ${title} is ${content.length} characters`);
-                                content = truncate(content);
-
-                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title}>{content}</Code>
-                            }
-                            else
-                            {
-                                return  <Code title={title}>(no preview available)</Code>
-                            }
-                        }
-                        )}
+                        })}
                 </>;
     }
 

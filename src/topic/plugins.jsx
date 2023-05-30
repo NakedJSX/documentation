@@ -4,7 +4,7 @@ export default
     () =>
     <Topic name="Plugins" path="plugins">
         <p>
-            Plugins can be enabled by passing <Inline lang="shell">{'--plugin <alias> <plugin-package-name-or-path>'}</Inline> on
+            Plugins can be enabled by passing <Fixed lang="shell">{'--plugin <alias> <plugin-package-name-or-path>'}</Fixed> on
             the command line.
         </p>
         <p>
