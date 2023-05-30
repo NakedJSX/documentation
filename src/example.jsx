@@ -159,6 +159,16 @@ export const Example =
             exampleBuildCache.set(cacheKey, result);
         }
 
+        function truncate(content)
+        {
+            const limit = 2000;
+
+            if (content.length <= limit)
+                return content;
+            
+            return content.substring(0, limit) + '...\n\n(content too large to display in full)';
+        }
+
         return  <>
                     {sources}
                     {result.map(
@@ -176,10 +186,16 @@ export const Example =
                             {
                                 const uriPath = relativePathToUriPath(path.join(captureOutput, filename));
 
+                                // console.log(`Output: ${title} is ${content.length} characters`);
+                                content = truncate(content);
+
                                 return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open in new tab)">{content}</Code>
                             }
                             else if(lang === 'css' || lang === 'js')
                             {
+                                // console.log(`Output: ${title} is ${content.length} characters`);
+                                content = truncate(content);
+
                                 return  <Code wordwrap={wordwrapOutput} lang={lang} title={title}>{content}</Code>
                             }
                             else
