@@ -40,6 +40,40 @@ Page.Render();`
                 <p>produces the following:</p>
             </Example>
         </Topic>
+
+        <Topic name="JSON Data" path="json">
+            <p>
+                If you have JSON data in a file, you can import it using a <Inline>:json:</Inline> asset
+                import like this:
+            </p>
+            <Example captureOutput={['example', 'assets', 'json']}>
+                <Example.Src lang="json" filename="src/data.json">{
+`{
+    "Australia":
+        {
+            "population": 26357171,
+            "updated": "Monday, May 29, 2023"
+        }
+}`
+                }</Example.Src>
+                <Example.Src lang="javascript" filename="src/index-page.jsx">{
+`import { Page } from '@nakedjsx/core/page'
+
+import data from ':json:./data.json'
+
+Page.Create('en');
+Page.AppendBody(
+    <>
+        <h1>Population of Australia</h1>
+        <p>
+            {data.Australia.population} as of {data.Australia.updated}.
+        </p>
+    </>
+);
+Page.Render();`
+                }</Example.Src>
+            </Example>
+        </Topic>
         
         <Topic name="Raw Asset String" path="raw-string">
             <p>
@@ -49,7 +83,7 @@ Page.Render();`
             </p>
             <p>
                 That content can then be placed directly into the document without further processing,
-                using the built-in <Inline>{'<raw-content>'}</Inline> tag:
+                using the built-in <Tag>raw-content</Tag> tag.
             </p>
             <Example captureOutput={['example', 'assets', 'raw-string']}>
                 <Example.Src lang="xml" filename="src/circle.svg">{circleSvgSrc}</Example.Src>

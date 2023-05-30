@@ -176,7 +176,7 @@ export const Example =
                             {
                                 const uriPath = relativePathToUriPath(path.join(captureOutput, filename));
 
-                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(view page in new tab)">{content}</Code>
+                                return  <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open in new tab)">{content}</Code>
                             }
                             else if(lang === 'css' || lang === 'js')
                             {
@@ -194,7 +194,7 @@ export const Example =
 Example.BuildCmd =
     ({ context }) =>
     {
-        return <Code lang="shell" title="# build:" copyLink="(copy cmd)">$ {context.buildCommand}</Code>
+        return <Code lang="shell" title="# shell" copyLink="(copy cmd)">$ {context.buildCommand}</Code>
     }
 
 Example.Src =

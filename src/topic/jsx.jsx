@@ -46,7 +46,7 @@ Page.Render();`
                 <Example.BuildCmd />
             </Example>
             <p>
-                Note how the <Inline>{'<Section>'}</Inline> implementation was able to dynamically set the heading title and selectively place its children.
+                Note how the <Tag>Section</Tag> implementation was able to dynamically set the heading title and selectively place its children.
             </p>
         </Topic>
 
@@ -64,7 +64,7 @@ Page.Render();`
 
         <Topic name="Exporting and Importing" path="exporting-and-importing">
             <p>
-                JSX tags compile down to functions, and you can export and import them like any other function.
+                JSX functions compile down to functions, and you can export and import them like any other function.
                 A refactored version of the previous example might be split into two files like this:
             </p>
             <Code lang="jsx" title="src/common.jsx" copyLink="(copy code)">{
@@ -249,7 +249,7 @@ Page.Render();`
                 <li>A way to control when children are evaluated.</li>
             </ol>
             <p>
-                Here is an example of a <Inline>{'<Section>'}</Inline> tag that
+                Here is an example of a <Tag>Section</Tag> tag that
                 adds a 'Back to top' link at the end of each section that has no subsections.
                 This avoids, for example, a top level section with one child section adding
                 two consequative 'Return to Top' links to the page.

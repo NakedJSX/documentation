@@ -10,26 +10,33 @@ import Plugins from './topic/plugins.jsx';
 import PagesDynamic from './topic/pages-dynamic.jsx';
 import DefinitionInjection from './topic/definition-injection.jsx';
 
-import { Toc, TopicList, Topic, Fixed, Code, Inline, Analytics } from './common.jsx';
+import { Toc, TopicList, Topic, Fixed, Code, Inline, Tag, Analytics } from './common.jsx';
 import { Example } from './example.jsx';
 
 import logo from ':raw:$ASSET/logo.svg';
 import prismTheme from ':raw:@nakedjsx/plugin-asset-prism/theme.css';
+
+const title = "NakedJSX Documentation";
+const description = "NakedJSX documentation."
 
 //
 // Rather than require each topic import the tags it needs,
 // add them all to the global scope.
 //
 
-Object.assign(global, { Topic, Fixed, Code, Inline, Example });
+Object.assign(global, { Topic, Fixed, Code, Inline, Tag, Example });
 
 Page.Create('en');
 Page.AppendHead(
     <>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="NakedJSX builds static HTML files from JavaScript and JSX." />
-        <title>NakedJSX Documentation</title>
+        <meta name="description" content={description} />
+        <meta property="og:type" content="website"></meta>
+        <meta property="og:url" content="https://nakedjsx.org/documentation"></meta>
+        <meta property="og:title" content={`NakedJSX - ${title}`}></meta>
+        <meta property="og:description" content={description}></meta>
+        <title>{title}</title>
         <Analytics />
     </>
     );

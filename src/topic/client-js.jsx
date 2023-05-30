@@ -2,7 +2,19 @@ export default
     () =>
     <Topic name="Client Javascript" path="client-javascript">
         <p>
-            NakedJSX can compile JavaScript to execute in the browser.
+            NakedJSX can compile client JavaScript to execute in the browser, which has two advantages over linking to externally built JavaScript:
+        </p>
+        <ul>
+            <li>NakedJSX compiled client JavaScript can use inline JSX.</li>
+            <li>The CSS deduplication system allows client and page JSX to share generated classes.</li>
+        </ul>
+        <p>
+            By default, compiled client JavaScript is placed in a <Tag>script</Tag> tag
+            at the end of the <Tag>body</Tag>. It can also be configured to place it in an asset
+            file which is automatically linked to.
+        </p>
+        <p>
+            There are two ways to get NakedJSX to compile client JavaScript:
         </p>
 
         <Topic name="Dedicated File" path="file">

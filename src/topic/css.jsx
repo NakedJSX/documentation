@@ -11,7 +11,7 @@ export default
         <Topic name="Scoped CSS" path="scoped">
             <p>NakedJSX will extract CSS classes based on a <Inline>css</Inline> JSX prop.</p>
             <p>
-                If two different JSX tags contain equivalent CSS, they will
+                If two different JSX functions contain equivalent CSS, they will
                 share a class in the final output:
             </p>
             <Example captureOutput={['example', 'css', 'scoped']}>

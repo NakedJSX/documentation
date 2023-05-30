@@ -69,4 +69,10 @@ export default
                 Use of a config file is entirely optional.
             </p>
         </Topic>
+
+        <Topic name="Terminology" path="terminology">
+            <p>
+                Much of the underlying functionality is performed by 
+            </p>
+        </Topic>
     </Topic>

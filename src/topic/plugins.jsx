@@ -17,7 +17,7 @@ export default
 
         <Topic name="@nakedjsx/plugin-asset-image" path="@nakedjsx-plugin-asset-image">
             <p>
-                Generate a <Inline>{'<picture>'}</Inline> tag with webp & jpeg sourcesets from an image asset.
+                Generate a <Tag>picture</Tag> tag with webp & jpeg sourcesets from an image asset.
             </p>
             <p>
                 Use of this plugin currently requires that GraphicsMagick is installed and
@@ -71,12 +71,15 @@ Page.Render();`
                 }</Example.Src>
                 <Example.BuildCmd/>
             </Example>
+            <p>
+                Note that the plugin generated CSS containing the width and aspect-ratio of the image.
+            </p>
         </Topic>
 
         <Topic name="@nakedjsx/plugin-asset-prism" path="@nakedjsx-plugin-asset-prism">
             <p>
                 Good use cases for NakedJSX include technical documentation (like this page) and static blog generation.
-                Therefore NakedJSX provides an official plugin for formatting source code at build time using <a href="https://prismjs.com">Prism</a>.
+                Therefore NakedJSX provides an official plugin for highlighting source code at build time using <a href="https://prismjs.com">Prism</a>.
             </p>
             <p>
                 A Prism theme that automatically handles light/dark mode is also provided.
@@ -118,6 +121,6 @@ Page.Render();`
         </Topic>
 
         <Topic name="Custom Plugins" path="plugin-custom-asset">
-            <p>TODO: Document how to build your custom asset import plugins.</p>
+            <p>TODO: Document how to build custom asset import plugins.</p>
         </Topic>
     </Topic>
