@@ -38,44 +38,12 @@ export default
             <Example.BuildCmd />
         </Example>
 
-        <Topic name="Development Server" path="dev-server">
-            <p>NakedJSX includes a development server. You can start it by passing the <Inline lang="shell">--dev</Inline> flag on the command line:</p>
-            <Code lang="shell">{`$ npx nakedjsx src --out out --dev`}</Code>
-            <p>This time, instead of exiting after the build, this is displayed:</p>
-            <Code>{`Development server: http://localhost:8999, Press (x) to exit`}</Code>
-            <p>
-                You can now open <a href="http://localhost:8999">http://localhost:8999</a> and you will see the rendered index page.
-                If you edit and save <Fixed>src/index-page.jsx</Fixed>, the server will rebuild <Fixed>out/index.html</Fixed> and the browser will refresh automatically.
-            </p>
-        </Topic>
-
-        <Topic name="Using a Config File" path="config-file">
-            <p>
-                As projects start to make use of more NakedJSX features, the required command line
-                options can stack up. A config file can be used to avoid this.
-            </p>
-            <p>
-                Building with <Inline>--config-save</Inline> will save the build configuration
-                into a <Inline>.nakedjsx.json</Inline> config file in your source directory.
-            </p>
-            <p>
-                This config file will be automatically read by future builds, removing the need to specify
-                anything other than the source directory when invoking <Inline lang="shell">npx nakedjsx</Inline>.
-            </p>
-            <p>
-                Config file settings can be overriden by arguments supplied on the command line.
-            </p>
-            <p>
-                Use of a config file is entirely optional.
-            </p>
-        </Topic>
-
-        <Topic name="Terminology" path="terminology">
+        {/* <Topic name="Terminology" path="terminology">
             <dl>
                 <dt>Page JavaScript</dt>
                 <dd>The JavaScript (and JSX) used at build-time to produce HTML files.</dd>
                 <dt>Client JavaScript</dt>
                 <dd>JavaScript that runs in the browser.</dd>
             </dl>
-        </Topic>
+        </Topic> */}
     </Topic>

@@ -1,14 +1,15 @@
 import { Page } from '@nakedjsx/core/page';
 
-import GettingStarted from './topic/getting-started.jsx';
+import HelloWorld from './topic/hello-world.jsx';
+import DevelopmentTools from './topic/tools.jsx';
 import JsxUsing from './topic/jsx.jsx';
 import CssUsing from './topic/css.jsx';
 import Assets from './topic/assets.jsx';
 import ClientJs from './topic/client-js.jsx';
+import MultiplePages from './topic/multiple-pages.jsx';
 import Plugins from './topic/plugins.jsx';
 
-import PagesDynamic from './topic/pages-dynamic.jsx';
-import DefinitionInjection from './topic/definition-injection.jsx';
+
 
 import { Toc, TopicList, Topic, Fixed, Code, Inline, Inset, Tag, Analytics } from './common.jsx';
 import { Example } from './example.jsx';
@@ -24,7 +25,7 @@ const description = "NakedJSX documentation."
 // add them all to the global scope.
 //
 
-Object.assign(global, { Topic, Fixed, Code, Inline, Tag, Example });
+Object.assign(global, { Topic, Fixed, Code, Inline, Inset, Tag, Example });
 
 Page.Create('en');
 Page.AppendHead(
@@ -50,13 +51,13 @@ Page.AppendBody(
             <p>This page was built using NakedJSX, <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-html.mjs'}>and you can look its source</a>.</p>
             <Toc />
             <TopicList>
-                <GettingStarted />
+                <HelloWorld />
+                <DevelopmentTools />
                 <JsxUsing />
                 <CssUsing />
                 <Assets />
                 <ClientJs />
-                {/* <PagesDynamic /> */}
-                {/* <DefinitionInjection /> */}
+                <MultiplePages />
                 <Plugins />
             </TopicList>
         </main>

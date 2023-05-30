@@ -245,7 +245,7 @@ Page.Render();`
                 parents. Achieving this requires two things:
             </p>
             <ol>
-                <li>A mutable object or array in the parent context, and</li>
+                <li>A mutable object or array in the parent context</li>
                 <li>A way to control when children are evaluated.</li>
             </ol>
             <p>
