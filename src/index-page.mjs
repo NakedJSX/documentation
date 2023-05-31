@@ -34,7 +34,7 @@ Page.AppendHead(
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content={description} />
         <meta property="og:type" content="website"></meta>
-        <meta property="og:url" content="https://nakedjsx.org/documentation"></meta>
+        <meta property="og:url" content="https://nakedjsx.org/documentation/"></meta>
         <meta property="og:title" content={`NakedJSX - ${title}`}></meta>
         <meta property="og:description" content={description}></meta>
         <title>{title}</title>
