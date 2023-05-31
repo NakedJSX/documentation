@@ -16,24 +16,24 @@ export default
             </p>
             <Example captureOutput={['example', 'css', 'scoped']}>
                 <Example.Src lang="jsx" filename="src/index-page.mjs">{
-    `import { Page } from '@nakedjsx/core/page'
+`import { Page } from '@nakedjsx/core/page'
 
-    const Section =
-        ({ title, children }) =>
-        <>
-            <h2 css="color: fuchsia">{title}</h2>
-            {children}
-        </>
+const Section =
+    ({ title, children }) =>
+    <>
+        <h2 css="color: fuchsia">{title}</h2>
+        {children}
+    </>
 
-    Page.Create('en');
-    Page.AppendBody(
-        <>
-            <Section title="Fuchsia Title">
-                <p css="color: #ff00ff">Fuchsia Content.</p>
-            </Section>
-        </>
-    );
-    Page.Render();`
+Page.Create('en');
+Page.AppendBody(
+    <>
+        <Section title="Fuchsia Title">
+            <p css="color: #ff00ff">Fuchsia Content.</p>
+        </Section>
+    </>
+);
+Page.Render();`
                 }</Example.Src>
             </Example>
             <p>
@@ -49,27 +49,27 @@ export default
             </p>
             <Example captureOutput={['example', 'css', 'nested']}>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{
-    `import { Page } from '@nakedjsx/core/page'
+`import { Page } from '@nakedjsx/core/page'
 
-    Page.Create('en');
-    Page.AppendBody(
-        <>
-            <h1>Nested CSS</h1>
-            <ul css={\`
-                list-style-type: upper-roman;
+Page.Create('en');
+Page.AppendBody(
+    <>
+        <h1>Nested CSS</h1>
+        <ul css={\`
+            list-style-type: upper-roman;
 
-                & li {
-                    line-height: 1.5
-                }
-            \`}>
-                <li>Item one</li>
-                <li>Item two</li>
-                <li>Item three</li>
-                <li>Item four</li>
-            </ul>
-        </>
-        );
-    Page.Render();`
+            & li {
+                line-height: 1.5
+            }
+        \`}>
+            <li>Item one</li>
+            <li>Item two</li>
+            <li>Item three</li>
+            <li>Item four</li>
+        </ul>
+    </>
+    );
+Page.Render();`
                 }</Example.Src>
             </Example>
         </Topic>
@@ -83,21 +83,21 @@ export default
             </p>
             <Example captureOutput={['example', 'css', 'page-append-css']}>
                 <Example.Src lang="jsx" filename="src/index-page.mjs">{
-    `import { Page } from '@nakedjsx/core/page'
+`import { Page } from '@nakedjsx/core/page'
 
-    Page.Create('en');
-    Page.AppendCss(\`
-        html {
-            font-family: sans-serif;
-        }
-        \`);
-    Page.AppendBody(
-        <>
-            <h1>Phew.</h1>
-            <p>Those yucky serifs are gone.</p>
-        </>
-    );
-    Page.Render();`
+Page.Create('en');
+Page.AppendCss(\`
+    html {
+        font-family: sans-serif;
+    }
+    \`);
+Page.AppendBody(
+    <>
+        <h1>Phew.</h1>
+        <p>Those yucky serifs are gone.</p>
+    </>
+);
+Page.Render();`
                 }</Example.Src>
             </Example>
         </Topic>
