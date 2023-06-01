@@ -58,8 +58,8 @@ export const Topic =
 
         tocList.appendJsx(<TocItem linkId={targetId} depth={context.depth} name={name} path={context.path} />);
 
-        Page.AppendJs(hookupCopyToClipboard);
-        Page.AppendJsCall(hookupCopyToClipboard.name, id, 'href');
+        Page.AppendJsIfNew(hookupCopyToClipboard);
+        Page.AppendJsCall(hookupCopyToClipboard, id, 'href');
 
         //
         // At each level, determine if there are subtopics.
@@ -128,7 +128,7 @@ export const Code =
             copyId      = `${id}.copyId`;
             targetId    = `${id}.targetId`;
 
-            Page.AppendJs(hookupCopyToClipboard);
+            Page.AppendJsIfNew(hookupCopyToClipboard);
             Page.AppendJsCall(hookupCopyToClipboard.name, id, 'innerText');
         }
         

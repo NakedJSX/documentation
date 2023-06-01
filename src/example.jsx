@@ -99,24 +99,31 @@ export const Example =
                     stdio: 'inherit'
                 };
 
-            let spawnResult = spawnSync('npx', npxArgs, spawnOptions);
+            // Use the same 'npx nakedjsx' that is currently running
+            npxArgs[0] = process.argv[1];
+
+            const spawnResult = spawnSync(process.argv[0], npxArgs, spawnOptions);
+
+            if (spawnResult.status)
+                throw Error(`\n\nnpx nakedjsx exit code ${spawnResult.status} when building ${captureOutput}\n`);
+
             if (spawnResult.error)
             {
-                if (spawnResult.error.code === 'ENOENT' && spawnResult.error.path === 'npx')
-                {
-                    //
-                    // Node on windows requires npx.cmd -- but i'm not sure if this is true
-                    // for all Node.js Windows runtimes, perhaps WSL is different.
-                    //
-                    // So for now the approach is to try 'npx', look for specific error
-                    // details and try 'npx.cmd' if they match
-                    //
+                // if (spawnResult.error.code === 'ENOENT' && spawnResult.error.path === 'npx')
+                // {
+                //     //
+                //     // Node on windows requires npx.cmd -- but i'm not sure if this is true
+                //     // for all Node.js Windows runtimes, perhaps WSL is different.
+                //     //
+                //     // So for now the approach is to try 'npx', look for specific error
+                //     // details and try 'npx.cmd' if they match
+                //     //
 
-                    spawnResult = spawnSync('npx.cmd', npxArgs, spawnOptions);
-                    if (spawnResult.error)
-                        throw spawnResult.error;
-                }
-                else
+                //     spawnResult = spawnSync('npx.cmd', npxArgs, spawnOptions);
+                //     if (spawnResult.error)
+                //         throw spawnResult.error;
+                // }
+                // else
                     throw spawnResult.error;
             }
 

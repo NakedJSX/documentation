@@ -9,8 +9,6 @@ import ClientJs from './topic/client-js.jsx';
 import MultiplePages from './topic/multiple-pages.jsx';
 import Plugins from './topic/plugins.jsx';
 
-
-
 import { Toc, TopicList, Topic, Fixed, Code, Inline, Inset, Tag, Analytics } from './common.jsx';
 import { Example } from './example.jsx';
 
@@ -38,7 +36,7 @@ Page.AppendHead(
         <meta property="og:title" content={`NakedJSX - ${title}`}></meta>
         <meta property="og:description" content={description}></meta>
         <title>{title}</title>
-        <Analytics />
+        {!Page.IsDevelopmentMode() && <Analytics />}
     </>
     );
 Page.AppendCss(prismTheme);

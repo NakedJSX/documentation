@@ -79,7 +79,8 @@ Page.Render();`
                 Raw CSS can be added by passing a string containing CSS to the <Inline lang="js">Page.AppendCss()</Inline> function.
             </p>
             <p>
-                This is particularly useful for incorporating CSS imported from a file as a raw asset.
+                This is particularly useful for incorporating CSS imported from a file as a raw asset. When NakedJSX
+                knows what CSS us being used, it can avoid generating CSS classes with names that are already in use.
             </p>
             <Example captureOutput={['example', 'css', 'page-append-css']}>
                 <Example.Src lang="jsx" filename="src/index-page.mjs">{
@@ -105,7 +106,8 @@ Page.Render();`
         <Topic name="Common CSS File" path="common">
             <p>
                 Document default CSS and common utility classes can be placed in a common CSS file
-                that is added to all pages. This requires building with an additional flag:
+                that is added to all pages. This requires building with an additional flag (but don't
+                forget that build flags can be saved into a config file):The CSS deduplication sy
             </p>
             <Example buildFlags={['--pretty', '--css-common', 'src/style.css']} captureOutput={['example', 'css', 'common']}>
                 <Example.Src lang="css" filename="src/style.css">{

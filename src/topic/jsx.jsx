@@ -246,7 +246,7 @@ Page.Render();`
             </p>
             <ol>
                 <li>A mutable object or array in the parent context</li>
-                <li>A way to control when children are evaluated.</li>
+                <li>A way to control when children are evaluated</li>
             </ol>
             <p>
                 Here is an example of a <Tag>Section</Tag> tag that

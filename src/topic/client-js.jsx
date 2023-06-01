@@ -6,7 +6,7 @@ export default
         </p>
         <ul>
             <li>NakedJSX compiled client JavaScript can use inline JSX</li>
-            <li>The CSS deduplication system allows client and page JSX to share generated classes</li>
+            <li>The scoped CSS deduplication system allows client and page JSX to share generated classes</li>
         </ul>
         <p>
             By default, compiled client JavaScript is placed in a <Tag>script</Tag> tag
@@ -14,7 +14,7 @@ export default
             file, with a <Tag>script</Tag> linking to it automatically added to the document <Tag>head</Tag>.
         </p>
         <p>
-            There are four ways to get NakedJSX to compile client JavaScript:
+            There are several ways to get NakedJSX to compile client JavaScript:
         </p>
         <ul>
             <li>A dedicated <Inline>*-client.mjs</Inline> file</li>
@@ -69,121 +69,82 @@ Page.Render();`
                 (<Inline lang="shell">--dev</Inline>) minification is disabled and sourcemaps are generated,
                 providing a comfortable debugging experience.
             </p>
-    </Topic>
+        </Topic>
 
-    <Topic name="Adding via Page.AppendJs()" path="page-append-js">
-        <p>
-            <Inline lang="js">Page.AppendJs(code, options)</Inline> adds JavaScript to the page for the browser to execute.
-        </p>
-        <p>
-            By default, it won't add the same JavaScript twice. This is useful when implementing a JSX function that requires
-            a client JavaScript helper function - the JSX function can just blindly add the client function every time.
-        </p>
-        <p>
-            If <Inline lang="js">{`{ allowDuplicate: true }`}</Inline> is passed to <Inline lang="js">options</Inline>,
-            then it will add the code regardless of whether it has been added before.
-        </p>
-        <p>
-            <Inline lang="js">Page.AppendJs()</Inline> handles multiple forms of <Inline lang="js">code</Inline> argument:
-        </p>
-        <ul>
-            <li>A string containing JavaScript code</li>
-            <li>A function with a name</li>
-            <li>A anonymous function or an arrow function</li>
-        </ul>
-
-        <Example captureOutput={['example', 'client-js', 'append-js', 'string']}>
+        <Topic name="Adding via Page.AppendJs()" path="page-append-js">
             <p>
-                The content of a string argument will be added directly:
+                <Inline lang="js">Page.AppendJs(...code)</Inline> adds JavaScript to the page for the browser to execute.
+                If multiple arguments are supplied, each will be added to the client JavaScript in turn.
             </p>
-            <Example.Src lang="javascript" filename="src/index-page.jsx">{
-`import { Page } from '@nakedjsx/core/page'
-
-Page.Create('en');
-Page.AppendJs(\`
-    function clicked()
-    {
-        alert('You clicked!');
-    }
-    document
-        .getElementById('clicky-p')
-        .addEventListener('click', clicked);
-    \`);
-Page.AppendBody(
-    <>
-        <h1>String Argument</h1>
-        <p id="clicky-p">Click Me!</p>
-    </>
+            <p>
+                A string argument containing JavaScript code is supported, however it is usually a better developer
+                experience to pass source <em>directly</em> to <Inline lang="js">Page.AppendJs()</Inline>.
+                The page JavaScript compilation process will automatically convert code passed this way to strings
+                of code. For example:
+            </p>
+            <Code lang="js">{
+`Page.AppendJs(
+    alert('magic!'),
+    document.write('code')
     );
-Page.Render();`
-            }</Example.Src>
-        </Example>
-
-        <Example captureOutput={['example', 'client-js', 'append-js', 'named-function']}>
+Page.AppendJs(console.log('transformation'))`
+            }</Code>
             <p>
-                A named function will be added with name intact:
+                Becomes:
             </p>
-            <Example.Src lang="javascript" filename="src/index-page.jsx">{
+            <Code lang="js">{
+`Page.AppendJs("alert('magic!')", "document.write('code')");
+Page.AppendJs("console.log('transformation')");`
+            }</Code>
+            <p>
+                The code has been converted to strings of code, which are later compiled as client JavaScript.
+                This ultimately results in this <Tag>script</Tag> being placed the HTML file:
+            </p>
+            <Code lang="html">{
+`<script>
+    alert('magic!');
+    document.write('code');
+    console.log('transformation');
+</script>`
+            }</Code>
+
+            <Topic name="Appending blocks of code" path="page-append-js-block">
+                <p>
+                    If you directly add an anonymous or arrow function, then each statement in the body of that function will be added to the top level
+                    scope of the client JavaScript. If an unnamed function was added to the client JavaScript there would be no way to invoke it, so
+                    NakedJSX repurposes the syntax:
+                </p>
+                <Example captureOutput={['example', 'client-js', 'append-js', 'anon-function']}>
+                    <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');
 Page.AppendJs(
-    function clicked()
+    function()
     {
-        alert('You clicked!');
-    });
-Page.AppendJs(\`
-    document
-        .getElementById('clicky-p')
-        .addEventListener('click', clicked);
-    \`);
-Page.AppendBody(
-    <>
-        <h1>Named Function</h1>
-        <p id="clicky-p">Click Me!</p>
-    </>
-);
-Page.Render();`
-            }</Example.Src>
-        </Example>
-
-        <Example captureOutput={['example', 'client-js', 'append-js', 'anon-function']}>
-            <p>
-                The <em>body</em> of an unnamed or arrow function will be added as top level code:
-            </p>
-            <Example.Src lang="javascript" filename="src/index-page.jsx">{
-`import { Page } from '@nakedjsx/core/page'
-
-Page.Create('en');
-Page.AppendJs(
-    function clicked()
-    {
-        alert('You clicked!');
+        document.write('zero');
     });
 Page.AppendJs(
     () =>
     {
-        document
-            .getElementById('clicky-p')
-            .addEventListener('click', clicked);
+        document.write(' one');
+        document.write(' two');
     });
-Page.AppendBody(
-    <>
-        <h1>Anon Function</h1>
-        <p id="clicky-p">Click Me!</p>
-    </>
-);
-Page.Render();`
-            }</Example.Src>
-        </Example>
-    </Topic>
+Page.AppendJs(() => document.write(' three'));
 
-<Topic name={'Adding via Inline Event Handlers'} path="on-event-handler">
-    <p>
-        It's also possible, and quite clean, to add client JavaScript using classic inline event handlers on JSX elements:
-    </p>
-    <Example captureOutput={['example', 'client-js', 'inline-event-handler']}>
-        <Example.Src lang="javascript" filename="src/index-page.jsx">{
+Page.AppendBody(<h1>Anon / Arrow Function</h1>);
+Page.Render();`
+                    }</Example.Src>
+                </Example>
+            </Topic>
+        </Topic>
+
+        <Topic name={'Adding via Inline Event Handlers'} path="on-event-handler">
+            <p>
+                It's also possible to add client JavaScript using classic inline event handlers on JSX elements:
+            </p>
+            <Example captureOutput={['example', 'client-js', 'inline-event-handler']}>
+                <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');
@@ -199,34 +160,34 @@ Page.AppendBody(
     </>
     );
 Page.Render();`
-            }</Example.Src>
-        </Example>
-        <p>
-            The minified output is a little different here, as the compiler needs to set <Inline lang="js">this</Inline> to the element
-            with the inline event handler, and it also needs to pass the event to the handler. A future version of
-            NakedJSX may parse the inline handler for references to <Inline lang="js">this</Inline> and <Inline lang="js">event</Inline> and
-            simplify the generated code accordingly.
-        </p>
-    </Topic>
+                }</Example.Src>
+            </Example>
+            <p>
+                The minified output is a little different here, as the compiler needs to set <Inline lang="js">this</Inline> to the element
+                with the inline event handler, and it also needs to pass the event to the handler. A future version of
+                NakedJSX may parse the inline handler for references to <Inline lang="js">this</Inline> and <Inline lang="js">event</Inline> and
+                simplify the generated code accordingly.
+            </p>
+        </Topic>
 
-    <Topic name="Adding via Page.AppendJsCall()" path="page-append-js-call">
-        <p>
-            A common pattern is to pass a named function to <Inline lang="js">Page.AppendJs()</Inline>, and then generate a
-            series of calls to that function with differing arguments.
-        </p>
-        <p>
-            While it is possible to manually generate a JavaScript string containg the calls and
-            then pass that string to <Inline lang="js">Page.AppendJs()</Inline>, NakedJSX
-            provides an easier way.
-        </p>
-        <p>
-            <Inline lang="js">Page.AppendJsCall(functionName, ...args)</Inline> accepts the name of a function followed
-            by a series of arguments, and generates and appends client JavaScript that will call that function with those
-            arguments. Here is a contrived example:
-        </p>
+        <Topic name="Adding via Page.AppendJsCall()" path="page-append-js-call">
+            <p>
+                A common pattern is to pass a named function to <Inline lang="js">Page.AppendJs()</Inline>, and then generate a
+                series of calls to that function with differing arguments.
+            </p>
+            <p>
+                While it is possible to manually generate a JavaScript string containg the calls and
+                then pass that string to <Inline lang="js">Page.AppendJs()</Inline>, NakedJSX
+                provides an easier way.
+            </p>
+            <p>
+                <Inline lang="js">Page.AppendJsCall(functionName, ...args)</Inline> accepts the name of a function followed
+                by a series of arguments, and generates and appends client JavaScript that will call that function with those
+                arguments. Here is a contrived example:
+            </p>
 
-        <Example captureOutput={['example', 'client-js', 'append-js-call']}>
-            <Example.Src lang="javascript" filename="src/index-page.jsx">{
+            <Example captureOutput={['example', 'client-js', 'append-js-call']}>
+                <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');
@@ -238,8 +199,7 @@ Page.AppendJs(
             return t;
     
         return Array.isArray(thing) ? 'array' : t;
-    }
-    );
+    });
 Page.AppendJs(
     function clientLog(...args)
     {
@@ -257,24 +217,24 @@ Page.AppendBody(
     </>
 );
 Page.Render();`
-            }</Example.Src>
-        </Example>
-    </Topic>
+                }</Example.Src>
+            </Example>
+        </Topic>
 
-    <Topic name="Using JSX in Client JavaScript" path="jsx">
-        <p>
-            Client JavaScript can also use JSX. Props are supported, as are
-            scoped and nested CSS. Extracted CSS classes are deduplicated with those used by the HTML.
-        </p>
-        <p>
-            Refs and context are not currently supported in client JavaScript.
-        </p>
-        <p>
-            Here is a version of an earlier example converted to use JSX:
-        </p>
-        
-        <Example captureOutput={['example', 'client-js', 'jsx']}>
-            <Example.Src lang="javascript" filename="src/index-client.js">{
+        <Topic name="Using JSX in Client JavaScript" path="jsx">
+            <p>
+                Client JavaScript can also use JSX. Props are supported, as are
+                scoped and nested CSS. Extracted CSS classes are deduplicated with those used by the HTML.
+            </p>
+            <p>
+                Refs and context are not currently supported in client JavaScript.
+            </p>
+            <p>
+                Here is a version of an earlier example converted to use JSX:
+            </p>
+            
+            <Example captureOutput={['example', 'client-js', 'jsx']}>
+                <Example.Src lang="javascript" filename="src/index-client.js">{
 `const JsxTag =
     ({ count }) =>
     <>
@@ -285,8 +245,8 @@ Page.Render();`
     </>
 
 var clickCounter = 0;`
-            }</Example.Src>
-            <Example.Src lang="javascript" filename="src/index-page.jsx">{
+                }</Example.Src>
+                <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');
@@ -297,13 +257,13 @@ Page.AppendBody(
     </>
     );
 Page.Render(); `
-            }</Example.Src>
-            <p>The client JSX is compiled down to JavaScript that creates the necessary DOM elements and sets their attributes.</p>
-            <p>About 630 bytes is added for the DOM element construction runtime.</p>
-            <p>
-                The browser <Inline lang="javascript">Element.prototype.appendChild()</Inline> implementation is patched to add support
-                for adding an array of elements. Without this, this example would have needed to iterate over the JSX fragment returned by <Inline lang="jsx">{`<JsxTag />`}</Inline>.
-            </p>
-        </Example>
+                }</Example.Src>
+                <p>The client JSX is compiled down to JavaScript that creates the necessary DOM elements and sets their attributes.</p>
+                <p>About 630 bytes is added for the DOM element construction runtime.</p>
+                <p>
+                    The browser <Inline lang="javascript">Element.prototype.appendChild()</Inline> implementation is patched to add support
+                    for adding an array of elements. Without this, this example would have needed to iterate over the JSX fragment returned by <Inline lang="jsx">{`<JsxTag />`}</Inline>.
+                </p>
+            </Example>
+        </Topic>
     </Topic>
-</Topic>

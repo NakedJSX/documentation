@@ -55,12 +55,20 @@ Page.Render('index-two.html');`
 
         <Topic name="Dynamic" path="dynamic">
             <p>
-                It is also possible fetch JSX snippets and associated data from an external source at build time, and then use these
-                to generate pages. A built in <Inline>:dynamic:</Inline> import plugin provides the necessary glue
+                It is also possible fetch data at build time and use it to generate an arbitrary number of pages.
             </p>
             <p>
-                TODO: document an example that asynchronously loads content from the filesystem and generates pages. Current test example
-                relies on the manipulating the global scope in an async unsafe way, core changes are needed.
+                Simply fetch the data at the top level scope in the page JavaScript, awaiting as needed,
+                then generate your Page.* API calls in a loop.
             </p>
+            <p>
+                TODO: example
+            </p>
+        </Topic>
+
+        <Topic name="Dynamic" path="dynamic">
+            <p>EXPERIMENTAL</p>
+            A built-in <Inline>:dynamic:</Inline> import plugin provides a way to fetch and use JSX snippets
+            from external data sources. Please get in touch if you would find that useful.
         </Topic>
     </Topic>
