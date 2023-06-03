@@ -124,7 +124,7 @@ button {
 main {
     margin: 0 auto;
     padding: 0 var(--gap);
-    max-width: 52ch;
+    max-width: 75ch;
 }
 
 footer {
