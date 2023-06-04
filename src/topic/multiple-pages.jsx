@@ -2,11 +2,11 @@ export default
     () =>
     <Topic name="Multiple Pages" path="multiple-pages">
         <p>
-            Used as it has been so far in this guide, NakedJSX will generate a single HTML page for each <Inline>*-page.mjs</Inline> within
+            Used as it has been so far in this guide, NakedJSX will generate a single HTML page for each <Inline>*-page.jsx</Inline> within
             the project source directory.
         </p>
         <p>
-            However, it is perfectly valid for a single <Inline>*-page.mjs</Inline> file to generate multiple pages, or even no page at all.
+            However, it is perfectly valid for a single <Inline>*-page.jsx</Inline> file to generate multiple pages, or even no page at all.
         </p>
         <Inset>
             Important: Within a single <Inline>*-page.jsx</Inline> file, the Page.API can only work on a single page at a time.
@@ -66,9 +66,9 @@ Page.Render('index-two.html');`
             </p>
         </Topic>
 
-        <Topic name="Dynamic" path="dynamic">
+        {/* <Topic name="Dynamic" path="dynamic">
             <p>EXPERIMENTAL</p>
             A built-in <Inline>:dynamic:</Inline> import plugin provides a way to fetch and use JSX snippets
             from external data sources. Please get in touch if you would find that useful.
-        </Topic>
+        </Topic> */}
     </Topic>

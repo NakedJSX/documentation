@@ -15,7 +15,7 @@ export default
                 share a class in the final output:
             </p>
             <Example captureOutput={['example', 'css', 'scoped']}>
-                <Example.Src lang="jsx" filename="src/index-page.mjs">{
+                <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 const Section =
@@ -83,7 +83,7 @@ Page.Render();`
                 knows what CSS us being used, it can avoid generating CSS classes with names that are already in use.
             </p>
             <Example captureOutput={['example', 'css', 'page-append-css']}>
-                <Example.Src lang="jsx" filename="src/index-page.mjs">{
+                <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
 Page.Create('en');
@@ -107,7 +107,7 @@ Page.Render();`
             <p>
                 Document default CSS and common utility classes can be placed in a common CSS file
                 that is added to all pages. This requires building with an additional flag (but don't
-                forget that build flags can be saved into a config file):The CSS deduplication sy
+                forget that build flags can be saved into a config file):
             </p>
             <Example buildFlags={['--pretty', '--css-common', 'src/style.css']} captureOutput={['example', 'css', 'common']}>
                 <Example.Src lang="css" filename="src/style.css">{
@@ -135,6 +135,7 @@ Page.Render();`
                 }</Example.Src>
                 <p>built with the following command:</p>
                 <Example.BuildCmd />
+                <p></p>
             </Example>
         </Topic>
     </Topic>

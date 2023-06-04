@@ -72,6 +72,7 @@ Page.AppendBody(
 );
 Page.Render();`
                 }</Example.Src>
+            <p>the result:</p>
             </Example>
         </Topic>
         

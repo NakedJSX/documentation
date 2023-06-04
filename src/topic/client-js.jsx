@@ -1,3 +1,49 @@
+const appendJsClient =
+`var p = document.getElementById('click-me');
+var clickCounter = 0;
+p.onclick =
+    () =>
+    {
+        p.appendChild(document.createElement('br'));
+        p.appendChild(document.createTextNode(\`Click \${++clickCounter}: This content was dynamically added to the DOM.\`));
+    };`
+
+const appendJsPage =
+`import { Page } from '@nakedjsx/core/page'
+
+Page.Create('en');
+Page.AppendBody(
+    <>
+        <h1>Title</h1>
+        <p id="click-me">Click Me!</p>
+    </>
+);
+Page.Render();`
+
+const clientJsxClient =
+`const JsxTag =
+    ({ count }) =>
+    <>
+        <br/>
+        Click {\`\${count}\`}: This
+        <span css="color: fuchsia"> JSX </span>
+        content was dynamically added to the DOM.
+    </>
+
+var clickCounter = 0;`;
+
+const clientJsxPage =
+`import { Page } from '@nakedjsx/core/page'
+
+Page.Create('en');
+Page.AppendBody(
+    <>
+        <h1 css="color: fuchsia">Title</h1>
+        <p onClick="this.appendChild(<JsxTag count={++clickCounter}/>)">Click Me!</p>
+    </>
+    );
+Page.Render();`;
+
 export default
     () =>
     <Topic name="Client Javascript" path="client-js">
@@ -19,13 +65,14 @@ export default
         <ul>
             <li>A dedicated <Inline>*-client.mjs</Inline> file</li>
             <li>The <Inline lang="js">Page.AppendJs()</Inline> function</li>
+            <li>The <Inline lang="js">Page.AppendJsIfNew()</Inline> function</li>
             <li>Adding inline event handlers to JSX elements</li>
             <li>The <Inline lang="js">Page.AppendJsCall()</Inline> function</li>
         </ul>
         <p>
             A dedicated file is usually the right choice for large amounts of code,
-            with the other methods used for event handlers, JSX function support functions
-            and other snippets.
+            with the other methods used for event handlers, support functions needed
+            by custom JSX tags, and other snippets.
         </p>
 
         <Topic name="Adding via Dedicated File" path="file">
@@ -38,30 +85,10 @@ export default
                 format when necessary.
             </p>
             <Example captureOutput={['example', 'client-js', 'dedicated-file']}>
-                <Example.Src lang="javascript" filename="src/index-client.js">{
-`var p = document.getElementById('click-me');
-var clickCounter = 0;
-p.onclick =
-    () =>
-    {
-        p.appendChild(document.createElement('br'));
-        p.appendChild(document.createTextNode(\`Click \${++clickCounter}: This content was dynamically added to the DOM.\`));
-    };`
-                }</Example.Src>
-                <Example.Src lang="javascript" filename="src/index-page.jsx">{
-`import { Page } from '@nakedjsx/core/page'
-
-Page.Create('en');
-Page.AppendBody(
-    <>
-        <h1>Title</h1>
-        <p id="click-me">Click Me!</p>
-    </>
-);
-Page.Render();`
-                }</Example.Src>
+                <Example.Src lang="javascript" filename="src/index-client.js">{appendJsClient}</Example.Src>
+                <Example.Src lang="javascript" filename="src/index-page.jsx">{appendJsPage}</Example.Src>
                 <p>
-                    As you can see, the JavaScript output is minified (although formatted a little because we built with <Inline lang="shell">--pretty</Inline>):
+                    As you can see, the JavaScript output is minified (although it has been formatted a little because we built with <Inline lang="shell">--pretty</Inline>):
                 </p>
             </Example>
             <p>
@@ -182,7 +209,7 @@ Page.Render();`
             </p>
             <p>
                 <Inline lang="js">Page.AppendJsCall(functionName, ...args)</Inline> accepts the name of a function followed
-                by a series of arguments, and generates and appends client JavaScript that will call that function with those
+                by a series of arguments. It generates and then appends client JavaScript that will call that function with those
                 arguments. Here is a contrived example:
             </p>
 
@@ -226,38 +253,12 @@ Page.Render();`
                 Client JavaScript can also use JSX. Props are supported, as are
                 scoped and nested CSS. Extracted CSS classes are deduplicated with those used by the HTML.
             </p>
-            <p>
-                Refs and context are not currently supported in client JavaScript.
-            </p>
-            <p>
-                Here is a version of an earlier example converted to use JSX:
-            </p>
+            <p>Refs and context are not currently supported in client JavaScript.</p>
             
+            <p>Here is a version of an earlier example converted to use JSX:</p>
             <Example captureOutput={['example', 'client-js', 'jsx']}>
-                <Example.Src lang="javascript" filename="src/index-client.js">{
-`const JsxTag =
-    ({ count }) =>
-    <>
-        <br/>
-        Click {\`\${count}\`}: This
-        <span css="color: fuchsia"> JSX </span>
-        content was dynamically added to the DOM.
-    </>
-
-var clickCounter = 0;`
-                }</Example.Src>
-                <Example.Src lang="javascript" filename="src/index-page.jsx">{
-`import { Page } from '@nakedjsx/core/page'
-
-Page.Create('en');
-Page.AppendBody(
-    <>
-        <h1 css="color: fuchsia">Title</h1>
-        <p onClick="this.appendChild(<JsxTag count={++clickCounter}/>)">Click Me!</p>
-    </>
-    );
-Page.Render(); `
-                }</Example.Src>
+                <Example.Src lang="javascript" filename="src/index-client.js">{clientJsxClient}</Example.Src>
+                <Example.Src lang="javascript" filename="src/index-page.jsx">{clientJsxPage}</Example.Src>
                 <p>The client JSX is compiled down to JavaScript that creates the necessary DOM elements and sets their attributes.</p>
                 <p>About 630 bytes is added for the DOM element construction runtime.</p>
                 <p>

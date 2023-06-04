@@ -155,11 +155,13 @@ export const Example =
                         else if (filename.endsWith('.js'))
                             lang = 'javascript';
 
-                        const content = fs.readFileSync(path.join(out, filename)).toString();
+                        const filePath = path.join(out, filename);
+                        
                         return  {
                                     lang,
                                     filename,
-                                    content
+                                    content:    fs.readFileSync(filePath).toString(),
+                                    size:       fs.statSync(filePath).size
                                 };
                     });
             
@@ -187,7 +189,7 @@ export const Example =
         return  <>
                     {sources}
                     {result.map(
-                        ({ lang, filename, content }) =>
+                        ({ lang, filename, content, size }) =>
                         {
                             //
                             // Convert output folder to URI path.
@@ -195,7 +197,7 @@ export const Example =
                             // This is a bit convoluted due to windows paths.
                             //
 
-                            const title = 'out/' + relativePathToUriPath(filename);
+                            const title = `out/${relativePathToUriPath(filename)} (${size} bytes)`;
 
                             if (captureOutput)
                             {
@@ -215,7 +217,7 @@ export const Example =
 Example.BuildCmd =
     ({ context }) =>
     {
-        return <Code lang="shell" title="# shell" copyLink="(copy cmd)">$ {context.buildCommand}</Code>
+        return <Code lang="shell" title="# build command" copyLink="(copy cmd)">$ {context.buildCommand}</Code>
     }
 
 Example.Src =

@@ -144,7 +144,7 @@ export const Code =
                             align-items: center;`
                         }>
                             <span css="flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{title && <Fixed>{title}</Fixed>}</span>
-                            {uri        && <> <a css="white-space: nowrap" target={uriTarget} href={uri}>{uriText}</a></>}
+                            {uri        && <> <a css="white-space: nowrap" target={uriTarget} href={uri} rel="nofollow">{uriText}</a></>}
                             {copyLink   && <> <button id={copyId } className="link">{copyLink}</button></>}
                         </p>}
                     <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={targetId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
