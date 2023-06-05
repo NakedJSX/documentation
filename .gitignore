@@ -1,3 +1,4 @@
 dev
 dist
 src/test-page.jsx
+src/test-client.jsx
