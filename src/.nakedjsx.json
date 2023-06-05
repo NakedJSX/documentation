@@ -1,6 +1,7 @@
 {
     "pathAliases": {
-        "$ASSET": "../asset"
+        "$ASSET": "../asset",
+        "$SRC": "."
     },
     "definitions": {},
     "browserslistTargetQuery": "defaults",

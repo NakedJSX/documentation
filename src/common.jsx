@@ -13,11 +13,11 @@ export const Toc =
     </>
 
 export const TocItem =
-    ({ linkId, depth, name, path }) =>
+    ({ linkId, depth, name, url }) =>
     <>
         {depth == 1
-            ? <a id={linkId} href={`#${path}`}>{name}</a>
-            : <a css={`margin-left: ${(depth - 1) * 16}px`} id={linkId} href={`#${path}`}>{name}</a>}
+            ? <a id={linkId} href={url}>{name}</a>
+            : <a css={`margin-left: ${(depth - 1) * 16}px`} id={linkId} href={url}>{name}</a>}
         <br />
     </>
     
@@ -46,7 +46,7 @@ const Heading =
     }
 
 export const Topic =
-    ({ name, path, children, context }) =>
+    ({ name, path, children, context, indexUrl }) =>
     {
         // Use context.depth to control nested topic behaviour
         context.depth   = context.depth ? context.depth + 1 : 1;
@@ -56,7 +56,10 @@ export const Topic =
         const copyId    = `${id}.copyId`;
         const targetId  = `${id}.targetId`;
 
-        tocList.appendJsx(<TocItem linkId={targetId} depth={context.depth} name={name} path={context.path} />);
+        if (indexUrl)
+            tocList.appendJsx(<TocItem linkId={targetId} depth={context.depth} name={name} url={indexUrl} />);
+        else
+            tocList.appendJsx(<TocItem linkId={targetId} depth={context.depth} name={name} url={`#${context.path}`} />);
 
         Page.AppendJsIfNew(hookupCopyToClipboard);
         Page.AppendJsCall(hookupCopyToClipboard, id, 'href');

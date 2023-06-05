@@ -8,6 +8,7 @@ import Assets from './topic/assets.jsx';
 import ClientJs from './topic/client-js.jsx';
 import MultiplePages from './topic/multiple-pages.jsx';
 import Plugins from './topic/plugins.jsx';
+import Cookbook from './topic/cookbook.jsx';
 
 import { Toc, TopicList, Topic, Fixed, Code, Inline, Inset, Tag, Analytics } from './common.jsx';
 import { Example } from './example.jsx';
@@ -57,6 +58,7 @@ Page.AppendBody(
                 <ClientJs />
                 <MultiplePages />
                 <Plugins />
+                <Cookbook />
             </TopicList>
         </main>
     </>
