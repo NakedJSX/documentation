@@ -36,6 +36,7 @@ Page.AppendHead(
         <meta property="og:url" content="https://nakedjsx.org/documentation/"></meta>
         <meta property="og:title" content={`NakedJSX - ${title}`}></meta>
         <meta property="og:description" content={description}></meta>
+        <link rel="canonical" href="https://nakedjsx.org/documentation/" />
         <title>{title}</title>
         {!Page.IsDevelopmentMode() && <Analytics />}
     </>
