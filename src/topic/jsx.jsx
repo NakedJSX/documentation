@@ -9,9 +9,7 @@ export default
         </p>
         <p>
             For those not familiar, Meta's legacy <a href="https://legacy.reactjs.org/docs/introducing-jsx.html">Introducing JSX</a> page
-            serves as a good introduction to JSX itself. One difference in NakedJSX is that JSX elements compile down
-            to <Inline>__nakedjsx__createElement()</Inline>, not <Inline>React.createElement()</Inline>, but this detail is largely
-            irrelevent.
+            serves as a good introduction to JSX.
         </p>
 
         {/* TODO: An overview of JSX itself without confusing the reader by talking about React components */}

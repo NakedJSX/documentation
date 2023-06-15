@@ -260,7 +260,7 @@ Page.Render();`
                 <Example.Src lang="javascript" filename="src/index-client.js">{clientJsxClient}</Example.Src>
                 <Example.Src lang="javascript" filename="src/index-page.jsx">{clientJsxPage}</Example.Src>
                 <p>The client JSX is compiled down to JavaScript that creates the necessary DOM elements and sets their attributes.</p>
-                <p>About 630 bytes is added for the DOM element construction runtime.</p>
+                <p>About half a kilobyte is added for the DOM element construction runtime.</p>
                 <p>
                     The browser <Inline lang="javascript">Element.prototype.appendChild()</Inline> implementation is patched to add support
                     for adding an array of elements. Without this, this example would have needed to iterate over the JSX fragment returned by <Inline lang="jsx">{`<JsxTag />`}</Inline>.

@@ -27,7 +27,9 @@ const exampleBuildCache = Page.CacheMapGet(import.meta.url.href);
 export const Example =
     ({ captureOutput, wordwrapOutput, buildFlags, context, children }) =>
     {
-        buildFlags = buildFlags || ['--pretty'];
+        const hiddenBuildFlags = ['--sourcemaps-disable', '--quiet'];
+        
+        buildFlags = hiddenBuildFlags.concat(buildFlags || ['--pretty']);
 
         if (captureOutput)
             captureOutput = path.join(...captureOutput);
@@ -48,10 +50,10 @@ export const Example =
         // Make the build command used to any <Example.BuildCmd> child
         //
 
-        const npxArgs = ['nakedjsx', 'src', '--out', 'out', '--quiet', ...buildFlags];
+        const npxArgs = ['nakedjsx', 'src', '--out', 'out', ...buildFlags];
         context.buildCommand = 'npx';
         for (const segment of npxArgs)
-            if (segment === '--quiet') // this isn't relevant to the reader
+            if (hiddenBuildFlags.includes(segment)) // these aren't relevant to the reader
                 continue;
             else
                 context.buildCommand += ' ' + segment;
@@ -102,6 +104,7 @@ export const Example =
             // Use the same 'npx nakedjsx' that is currently running
             npxArgs[0] = process.argv[1];
 
+            Page.Log(`Building example: ${Page.GetOutputUri(captureOutput)}`);
             const spawnResult = spawnSync(process.argv[0], npxArgs, spawnOptions);
 
             if (spawnResult.status)

@@ -33,7 +33,7 @@ Page.AppendBody(
             <Code lang="jsx">{
 `$('body').append(
     <p css="color: fuchsia">
-        jQuery ❤️ JSX!
+        jQuery ❤️ NakedJSX!
     </p>
     );`
             }</Code>

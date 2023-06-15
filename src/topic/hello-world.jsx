@@ -25,7 +25,7 @@ const BodyContent =
 const ClientJsx =
     () =>
     <p css="color: #ff00ff">
-        This &lt;p&gt; was added by browser JavaScript!
+        This paragraph was added by browser JavaScript!
     </p>
 
 // Prepare to produce a HTML file
