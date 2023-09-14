@@ -1,3 +1,6 @@
+import { Topic, Code, Inline, Shell, Fixed } from "$SRC/common.jsx";
+import { Example } from "$SRC/example.jsx";
+
 export default
     () =>
     <Topic name="Development Tools" path="tools">
@@ -23,7 +26,7 @@ export default
             </p>
             <p>
                 This config file will be automatically read by future builds, removing the need to specify
-                anything other than the source directory when invoking <Inline lang="shell">npx nakedjsx</Inline>.
+                anything other than the source directory when invoking <Shell>npx nakedjsx</Shell>.
             </p>
             <p>
                 Config file settings can be overriden by arguments supplied on the command line.
@@ -39,7 +42,7 @@ export default
                 multiple client ids for third party APIs.
             </p>
             <p>
-                To use this feature, pass <Inline lang="shell">{`--define <key> <value>`}</Inline> on the build command,
+                To use this feature, pass <Shell>{`--define <key> <value>`}</Shell> on the build command,
                 and import from the key in page JavaScript:
             </p>
             <Example buildFlags={['--define', 'BUILD_KEY', 'BUILD_VALUE', '--pretty']} captureOutput={['example', 'tools', 'definition-injection']}>
@@ -67,12 +70,12 @@ Page.Render();`
                 NakedJSX supports import source path aliases, making it easier to manage larger projects.
             </p>
             <p>
-                To use this feature, pass <Inline lang="shell">{`--path-alias <alias> <path>`}</Inline> on the build command,
+                To use this feature, pass <Shell>{`--path-alias <alias> <path>`}</Shell> on the build command,
                 and then use the alias at the start of your import string:
             </p>
             <Example buildFlags={['--path-alias', '$LIB', 'lib', '--pretty']} captureOutput={['example', 'tools', 'path-alias']}>
                 <Example.Src lang="jsx" filename="lib/something.mjs">{
-`export const something = 'A string imported via a path alias.';`
+`export const something = 'a string imported via a path alias.';`
                 }</Example.Src>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
@@ -82,7 +85,7 @@ Page.Create('en');
 Page.AppendBody(
     <>
         <h1>Path Alias</h1>
-        <p>Here's something: {something}</p>
+        <p>Here is something: {something}</p>
     </>
     );
 Page.Render();`

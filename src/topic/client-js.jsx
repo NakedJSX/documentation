@@ -1,3 +1,6 @@
+import { Topic, Code, Inline, Shell, Tag } from "$SRC/common.jsx";
+import { Example } from "$SRC/example.jsx";
+
 const appendJsClient =
 `var p = document.getElementById('click-me');
 var clickCounter = 0;
@@ -39,7 +42,7 @@ Page.Create('en');
 Page.AppendBody(
     <>
         <h1 css="color: fuchsia">Title</h1>
-        <p onClick="this.appendChild(<JsxTag count={++clickCounter}/>)">Click Me!</p>
+        <p onClick="this.appendChild(<JsxTag count={++clickCounter}/>); console.log(this); console.log({ hello: world, self: this })">Click Me!</p>
     </>
     );
 Page.Render();`;
@@ -88,12 +91,12 @@ export default
                 <Example.Src lang="javascript" filename="src/index-client.js">{appendJsClient}</Example.Src>
                 <Example.Src lang="javascript" filename="src/index-page.jsx">{appendJsPage}</Example.Src>
                 <p>
-                    As you can see, the JavaScript output is minified (although it has been formatted a little because we built with <Inline lang="shell">--pretty</Inline>):
+                    As you can see, the JavaScript output is minified (although it has been formatted a little because we built with <Shell>--pretty</Shell>):
                 </p>
             </Example>
             <p>
                 Minification is great for production builds, but not during development. In development mode
-                (<Inline lang="shell">--dev</Inline>) minification is disabled and sourcemaps are generated,
+                (<Shell>--dev</Shell>) minification is disabled and sourcemaps are generated,
                 providing a comfortable debugging experience.
             </p>
         </Topic>
@@ -190,10 +193,11 @@ Page.Render();`
                 }</Example.Src>
             </Example>
             <p>
-                The minified output is a little different here, as the compiler needs to set <Inline lang="js">this</Inline> to the element
-                with the inline event handler, and it also needs to pass the event to the handler. A future version of
-                NakedJSX may parse the inline handler for references to <Inline lang="js">this</Inline> and <Inline lang="js">event</Inline> and
-                simplify the generated code accordingly.
+                The minified output is a little different here, as <Inline lang="js">clicked()</Inline>
+                has not been renamed to something shorter. Currently, NakedJSX will prevent the renaming
+                of an identifier that is used in an inline event handler. The toplevel function has also
+                been set as a window property to prevent the usual tree shaking process from removing the
+                seemingly unused function. These inefficiencies will be addressed in future updates.
             </p>
         </Topic>
 

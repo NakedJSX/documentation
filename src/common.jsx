@@ -1,15 +1,20 @@
 import { Page } from '@nakedjsx/core/page'
 import { PrismCode } from '@nakedjsx/plugin-asset-prism/jsx';
 
+import { fixIndent } from './util.mjs';
+
+import logoHref from '::../asset/logo.svg';
+
 const tocList = Page.RefCreate();
 
 export const Toc =
-    () =>
+    ({ returnToDocHref }) =>
     <>
         <h2 id="toc">Topics</h2>
         <Inset>
             <nav ref={tocList} css="line-height: 1.75" />
         </Inset>
+        {returnToDocHref && <ReturnToDocLink href={returnToDocHref} />}
     </>
 
 export const TocItem =
@@ -19,13 +24,6 @@ export const TocItem =
             ? <a id={linkId} href={url}>{name}</a>
             : <a css={`margin-left: ${(depth - 1) * 16}px`} id={linkId} href={url}>{name}</a>}
         <br />
-    </>
-    
-
-export const TopicList =
-    ({ children }) =>
-    <>
-        {children}
     </>
 
 const Heading =
@@ -46,7 +44,7 @@ const Heading =
     }
 
 export const Topic =
-    ({ name, path, children, context, indexUrl }) =>
+    ({ name, path, children, context, indexUrl, underLink, underLinkLabel, noBackToTop, noCopyLink }) =>
     {
         // Use context.depth to control nested topic behaviour
         context.depth   = context.depth ? context.depth + 1 : 1;
@@ -61,8 +59,11 @@ export const Topic =
         else
             tocList.appendJsx(<TocItem linkId={targetId} depth={context.depth} name={name} url={`#${context.path}`} />);
 
-        Page.AppendJsIfNew(hookupCopyToClipboard);
-        Page.AppendJsCall(hookupCopyToClipboard, id, 'href');
+        if (!noCopyLink)
+        {
+            Page.AppendJsIfNew(hookupCopyToClipboard);
+            Page.AppendJsCall(hookupCopyToClipboard, id, 'href');
+        }
 
         //
         // At each level, determine if there are subtopics.
@@ -90,10 +91,14 @@ export const Topic =
                                         font-size: 0.875rem;
                                     }`
                     }>
-                        {name} <button id={copyId} className="link">(copy link)</button>
+                        {name} {!noCopyLink && <button id={copyId} className="link">(copy link)</button>}
                     </Heading>
+                    {underLink &&
+                        <p css="margin-top: calc(0px - var(--gap))">
+                            <a href={underLink}>{underLinkLabel ?? underLink}</a>
+                        </p>}
                     {children}
-                    {!context.has.subtopics && <p><a href="#toc">↑ Return to list of topics</a></p>}
+                    {!context.has.subtopics && !noBackToTop && <p><SymbolLink href="#toc" symbol="↑">Return to list of topics</SymbolLink></p>}
                 </>
     }
 
@@ -117,6 +122,10 @@ export const Inline =
         return <code className={`language-${lang ?? ''}`} ><PrismCode lang={lang} code={children.join('')} /></code>
     }
 
+export const Shell =
+    ({ children }) =>
+    <Inline>{children}</Inline>
+
 export const Code =
     ({ lang, title, wordwrap, uri, uriTarget, uriText, copyLink, children }) =>
     {
@@ -134,6 +143,8 @@ export const Code =
             Page.AppendJsIfNew(hookupCopyToClipboard);
             Page.AppendJsCall(hookupCopyToClipboard.name, id, 'innerText');
         }
+
+        const code = fixIndent(children.join(''));
         
         return  <>
                     {(title || uri || copyLink) &&
@@ -150,7 +161,7 @@ export const Code =
                             {uri        && <> <a css="white-space: nowrap" target={uriTarget} href={uri} rel="nofollow">{uriText}</a></>}
                             {copyLink   && <> <button id={copyId } className="link">{copyLink}</button></>}
                         </p>}
-                    <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={targetId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={children.join('')} /></code></pre>
+                    <pre className={`language-${lang ?? ''}`} css="margin-top: 0"><code id={targetId} css={wordwrap ? 'word-break: break-all; white-space: break-spaces' : ''}><PrismCode lang={lang} code={code} /></code></pre>
                 </>
     }
 
@@ -203,8 +214,12 @@ function hookupCopyToClipboard(id, attribute)
 export const Inset =
     ({ children }) =>
     <div css={`
-        padding: var(--gap-three-eighths-2) var(--gap);
+        display: flow-root;
         background-color: var(--code-bg-color);
+
+        & > * {
+            margin: var(--gap-three-eighths-2) var(--gap);
+        }
     `}>
         {children}
     </div>
@@ -214,10 +229,49 @@ export const Analytics =
     <>
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-CT8HVM4X2E" />
-        <script><raw-content content={
-`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-CT8HVM4X2E');`
-        }/></script>
+        <script><raw-content content={fixIndent`
+            if (location.host == 'nakedjsx.org') {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-CT8HVM4X2E');
+            }
+        `}/></script>
     </>
+
+export const Logo =
+    () =>
+    {
+        return  <object
+                    css="width: 61px; height: 45px;"
+                    type="image/svg+xml"
+                    data={logoHref}
+                    aria-label="NakedJSX"
+                >
+                    NakedJSX
+                </object>
+    }
+
+export const SymbolLink =
+    ({ symbol, children, ...linkProps }) =>
+    {
+        return <a {...linkProps}><span css="text-align: center; display: inline-block; min-width: 1.5em; margin-right: var(--gap-eighth)">{symbol}</span>{children}</a>
+    }
+
+function historyBackIfSameOrigin(event)
+{
+    if (new URL(document.referrer).origin === window.location.origin)
+    {
+        history.back();
+        event.preventDefault();
+    }
+}
+
+export const ReturnToDocLink =
+    props =>
+    {
+        Page.AppendJsIfNew(historyBackIfSameOrigin);
+
+        return <SymbolLink onClick="historyBackIfSameOrigin(event)" symbol="←" {...props}>Return to NakedJSX documentation</SymbolLink>;
+    }
+    

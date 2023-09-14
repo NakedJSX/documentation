@@ -1,13 +1,13 @@
 import { Page } from '@nakedjsx/core/page';
 
-import { Toc, TopicList, Topic, Fixed, Code, Inline, Inset, Tag, Analytics } from '$SRC/common.jsx';
+import { Inset, ReturnToDocLink, Logo, Fixed, Code, Inline, Shell, Analytics } from '$SRC/common.jsx';
 import { Example } from '$SRC/example.jsx';
 
-import logo from ':raw:$ASSET/logo.svg';
 import prismTheme from ':raw:@nakedjsx/plugin-asset-prism/theme.css';
 
-const titleSuffix = "Using JSX with jQuery";
-const description = "You can use JSX with jQuery if you build your client JavaScript with NakedJSX.";
+const titleSuffix   = "Using JSX with jQuery";
+const description   = "You can use JSX with jQuery if you build your client JavaScript with NakedJSX.";
+const canonicalUrl  = 'https://nakedjsx.org/documentation/cookbook/jquery/';
 
 Page.Create('en');
 Page.AppendHead(
@@ -15,10 +15,11 @@ Page.AppendHead(
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content={description} />
-        <meta property="og:type" content="website"></meta>
-        <meta property="og:url" content="https://nakedjsx.org/documentation/cookbook/jquery/"></meta>
-        <meta property="og:title" content={`NakedJSX - ${titleSuffix}`}></meta>
-        <meta property="og:description" content={description}></meta>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:title" content={`NakedJSX - ${titleSuffix}`} />
+        <meta property="og:description" content={description} />
+        <link rel="canonical" href={canonicalUrl} />
         <title>{`NakedJSX - ${titleSuffix}`}</title>
         {!Page.IsDevelopmentMode() && <Analytics />}
     </>
@@ -27,8 +28,9 @@ Page.AppendCss(prismTheme);
 Page.AppendBody(
     <>
         <main>
-            <h1><raw-content content={logo} /> {titleSuffix}</h1>
-            <p>{description}</p>
+            <h1><Logo /> {titleSuffix}</h1>
+            <Inset><p>{description}</p></Inset>
+            <p><ReturnToDocLink href="../../" /></p>
             <p>JSX elements and fragments can be passed directly to jQuery functions such as <Inline lang="js">.append()</Inline>:</p>
             <Code lang="jsx">{
 `$('body').append(
@@ -120,17 +122,17 @@ Page.AppendCss(\`
     body { font-size: 1.25rem; max-width: 40ch; margin: 0 auto; padding: 16px; }
     \`);
 Page.AppendBody(<Body />);
-Page.Render();`                    
+Page.Render();`
                 }</Example.Src>
                 <p>With these files created, if you have Node.js installed, you can now build them into a folder called <Fixed>out</Fixed> by running an npx command from the parent directory:</p>
                 <Example.BuildCmd />
                 <p>The result is a single file <Fixed>out/index.html</Fixed>, which contains HTML, CSS, and JavaScript built from the above code. The compiled result is visible below, and you can <a href="example/">test it in your browser</a>.</p>
                 <p>(Note: a minority of facts in the cat facts database appear to have some encoding issues and may display an excess of slashes or quotes. This is a data problem, not a problem with NakedJSX.)</p>
                 <p>
-                    By adding <Inline lang="shell">--dev</Inline> to the build command, you can launch a development build and web server that will automatically reload your browser as you save changes.
+                    By adding <Shell>--dev</Shell> to the build command, you can launch a development build and web server that will automatically reload your browser as you save changes.
                 </p>
-                <p><a href="../../">← Return to NakedJSX documentation</a>.</p>
             </Example>
+            <p><ReturnToDocLink href="../../" /></p>
         </main>
     </>
     );

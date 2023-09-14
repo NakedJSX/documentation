@@ -1,8 +1,17 @@
+import { Fixed, Topic, Code, Inline, Tag } from "$SRC/common.jsx";
+import { Example } from "$SRC/example.jsx";
+
 import circleSvgSrc from ':raw:$ASSET/circle.svg';
 
 export default
     () =>
     <Topic name="Assets" path="assets">
+        <p>
+            Assets files such as images, JSON, CSS can be added to a build via a JavaScript import statment.
+        </p>
+        <p>
+            Optionally, the asset file can be processed during import by a NakedJSX plugin and <a href="plugin-development/">it's simple to make your own plugins</a>.
+        </p>
         <Topic name="Arbitrary Files" path="generic">
             <p>
                 NakedJSX allows you to publish and link to arbitrary files via the asset system.
@@ -15,14 +24,15 @@ export default
                 `import circleHref from '::./circle.svg'`
             }</Code>
             <p>
-                This will cause NakedJSX to place a copy of <Inline>./circle.svg</Inline> in the 'asset'
-                directory in the build output folder, and <Inline>circleHref</Inline> will be a relative URL to it.
+                This will cause NakedJSX to place a copy of <Inline>./circle.svg</Inline> in
+                the <Fixed>asset</Fixed> directory in the build output folder,
+                and <Inline>circleHref</Inline> will be a relative URL to it.
             </p>
             <p>
                 For example:
             </p>
             <Example captureOutput={['example', 'assets', 'generic']}>
-                <Example.Src lang="xml" filename="src/circle.svg">{circleSvgSrc}</Example.Src>
+                <Example.Src lang="svg" filename="src/circle.svg">{circleSvgSrc}</Example.Src>
                 <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page'
 
@@ -123,17 +133,17 @@ Page.Create('en');
 Page.AppendBody(
     <>
         <h1>Raw Buffer</h1>
-        <p>
-            <pre><code>{JSON.stringify(circleRawBuffer.toJSON())}</code></pre>
-        </p>
-        <p>
-            <pre><code>{circleRawBuffer.toString()}</code></pre>
-        </p>
+        <pre><code>{
+            JSON.stringify(circleRawBuffer.toJSON())
+        }</code></pre>
+        <pre><code>{
+            circleRawBuffer.toString()
+        }</code></pre>
     </>
 );
 Page.Render();`
                 }</Example.Src>
-                <p>with the result:</p>
+                <p>with the result (best viewed via 'open in new tab'):</p>
             </Example>
         </Topic>
     </Topic>

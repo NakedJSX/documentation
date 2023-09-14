@@ -1,3 +1,6 @@
+import { Topic, Code, Inline, Tag, Fixed } from "$SRC/common.jsx";
+import { Example } from "$SRC/example.jsx";
+
 export default
     () =>
     <Topic name="JSX" path="jsx">

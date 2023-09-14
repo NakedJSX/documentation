@@ -1,3 +1,6 @@
+import { Topic, Inline, Fixed } from "$SRC/common.jsx";
+import { Example } from "$SRC/example.jsx";
+
 const exampleSource =
 `import { Page } from '@nakedjsx/core/page'
 
@@ -75,7 +78,9 @@ export default
             </p>
             <Example captureOutput={['example', 'hello-world', 'plus', 'pretty']}>
                 <Example.Src lang="jsx" filename="src/index-page.jsx">{exampleSourcePlus}</Example.Src>
-                <p>Results in:</p>
+                <p>
+                    The resulting HTML now has embedded CSS and JavaScript:
+                </p>
             </Example>
             <p>
                 Note that:
@@ -84,18 +89,11 @@ export default
                 <li>The scoped CSS is extracted from the JSX, minified, with the resulting class shared by both the page JSX and client JSX.</li>
                 <li>Some functions were automatically added to allow the compiled client JSX to create DOM nodes in the browser.</li>
             </ol>
-            <p>Here is the same example without the <Inline>--pretty</Inline> flag:</p>
+            <p>
+                The same example built without <Inline>--pretty</Inline> is less than a kilobyte in size:
+            </p>
             <Example captureOutput={['example', 'hello-world', 'plus', 'dist']} buildFlags={[]} wordwrapOutput>
                 <Example.Src hidden lang="jsx" filename="src/index-page.jsx">{exampleSourcePlus}</Example.Src>
             </Example>
         </Topic>
-
-        {/* <Topic name="Terminology" path="terminology">
-            <dl>
-                <dt>Page JavaScript</dt>
-                <dd>The JavaScript (and JSX) used at build-time to produce HTML files.</dd>
-                <dt>Client JavaScript</dt>
-                <dd>JavaScript that runs in the browser.</dd>
-            </dl>
-        </Topic> */}
     </Topic>

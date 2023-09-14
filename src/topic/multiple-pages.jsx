@@ -1,3 +1,6 @@
+import { Topic, Inline, Inset } from "$SRC/common.jsx";
+import { Example } from "$SRC/example.jsx";
+
 export default
     () =>
     <Topic name="Multiple Pages" path="multiple-pages">
@@ -9,7 +12,7 @@ export default
             However, it is perfectly valid for a single <Inline>*-page.jsx</Inline> file to generate multiple pages, or even no page at all.
         </p>
         <Inset>
-            Important: Within a single <Inline>*-page.jsx</Inline> file, the Page.API can only work on a single page at a time.
+            <p>Important: while a single <Inline>*-page.jsx</Inline> file can produce multiple output pages, the Page API can only work on a single page between each pair of Page.Create() and Page.Render() calls.</p>
         </Inset>
 
         <Topic name="Hardcoded" path="hardcoded">
@@ -53,13 +56,34 @@ Page.Render('index-two.html');`
             </Example>
         </Topic>
 
-        <Topic name="Dynamic" path="dynamic">
+        <Topic name="From Data at Build-Time" path="dynamic-build-time">
             <p>
                 It is also possible fetch data at build time and use it to generate an arbitrary number of pages.
             </p>
             <p>
                 Simply fetch the data at the top level scope in the page JavaScript, awaiting as needed,
                 then generate your Page.* API calls in a loop.
+            </p>
+            <p>
+                TODO: example
+            </p>
+        </Topic>
+
+        <Topic name="From Source Generated at Compile-Time" path="dynamic-compile-time">
+            <p>
+                It is possible to fetch or construct sources (JSX / MDX / JavaScript / etc.) at compile time.
+                These sources are then compiled by NakedJSX, with full support for scoped CSS, asset import plugins
+                and anything else that static sources can do.
+            </p>
+            <p>
+                This requires the use of the <Inline>dyanmic</Inline> built-in plugin. This plugin requires a source
+                file that is executed at compile time, and which returns JavaScript source for NakedJSX to compile.
+            </p>
+            <p>
+                This example generates a NakedJSX page for each of an arbitray number of MDX files. The
+                dynamic JavaScript file scans a folder for MDX files, generates a JavaScript import statement
+                of each via the <Inline>@nakedjsx/plugin-asset-mdx</Inline> plugin, and returns an array of
+                JSX:
             </p>
             <p>
                 TODO: example

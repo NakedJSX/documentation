@@ -10,21 +10,12 @@ import MultiplePages from './topic/multiple-pages.jsx';
 import Plugins from './topic/plugins.jsx';
 import Cookbook from './topic/cookbook.jsx';
 
-import { Toc, TopicList, Topic, Fixed, Code, Inline, Inset, Tag, Analytics } from './common.jsx';
-import { Example } from './example.jsx';
+import { Logo, Toc, Inset, Analytics } from './common.jsx';
 
-import logo from ':raw:$ASSET/logo.svg';
 import prismTheme from ':raw:@nakedjsx/plugin-asset-prism/theme.css';
 
 const title = "NakedJSX Documentation";
 const description = "NakedJSX documentation."
-
-//
-// Rather than require each topic import the tags it needs,
-// add them all to the global scope.
-//
-
-Object.assign(global, { Topic, Fixed, Code, Inline, Inset, Tag, Example });
 
 Page.Create('en');
 Page.AppendHead(
@@ -45,22 +36,20 @@ Page.AppendCss(prismTheme);
 Page.AppendBody(
     <>
         <main>
-            <h1><raw-content content={logo} /> Documentation</h1>
-            <p>Here you will find a detailed walkthrough of NakedJSX features.</p>
-            <Inset>For a high-level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</Inset>
+            <h1><Logo /> Documentation</h1>
+            <p>A detailed walkthrough of NakedJSX features.</p>
+            <Inset><p>For a high-level overview, please visit <a href="https://nakedjsx.org">nakedjsx.org</a>.</p></Inset>
             <p>This page was built using NakedJSX, <a href={'https://github.com/NakedJSX/documentation/blob/main/src/index-page.jsx'}>and you can look its source</a>.</p>
             <Toc />
-            <TopicList>
-                <HelloWorld />
-                <DevelopmentTools />
-                <JsxUsing />
-                <CssUsing />
-                <Assets />
-                <ClientJs />
-                <MultiplePages />
-                <Plugins />
-                <Cookbook />
-            </TopicList>
+            <HelloWorld />
+            <DevelopmentTools />
+            <JsxUsing />
+            <CssUsing />
+            <Assets />
+            <ClientJs />
+            <MultiplePages />
+            <Plugins />
+            <Cookbook />
         </main>
     </>
     );

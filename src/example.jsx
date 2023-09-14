@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { Page } from '@nakedjsx/core/page'
 
 import { Code } from './common.jsx'
+import { fixIndent } from './util.mjs'
 
 function relativePathToUriPath(relativePath)
 {
@@ -157,6 +158,8 @@ export const Example =
                             lang = 'css';
                         else if (filename.endsWith('.js'))
                             lang = 'javascript';
+                        else if (filename.endsWith('.svg'))
+                            lang = 'svg';
 
                         const filePath = path.join(out, filename);
                         
@@ -189,31 +192,46 @@ export const Example =
             return content;
         }
 
+        function stripAssetHash(filename)
+        {
+            if (!filename.startsWith('asset/'))
+                return filename;
+            
+            return filename.replace(/\.[^.]+\.([^\.]+)$/, ".$1");
+        }
+
+        function outputComparitor(a, b)
+        {
+            return stripAssetHash(a.filename).localeCompare(stripAssetHash(b.filename));
+        }
+
         return  <>
                     {sources}
-                    {result.map(
-                        ({ lang, filename, content, size }) =>
-                        {
-                            //
-                            // Convert output folder to URI path.
-                            //
-                            // This is a bit convoluted due to windows paths.
-                            //
-
-                            const title = `out/${relativePathToUriPath(filename)} (${size} bytes)`;
-
-                            if (captureOutput)
+                    {result
+                        .sort(outputComparitor)
+                        .map(
+                            ({ lang, filename, content, size }) =>
                             {
-                                const uriPath = relativePathToUriPath(path.join(captureOutput, filename));
+                                //
+                                // Convert output folder to URI path.
+                                //
+                                // This is a bit convoluted due to windows paths.
+                                //
 
-                                if (lang === 'html' || lang === 'css' || lang === 'js')
-                                    content = truncateIfNeeded(content);
-                                else
-                                    content = '(no preview available)';
+                                const title = `out/${relativePathToUriPath(filename)} (${size} bytes)`;
 
-                                return <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open in new tab)">{content}</Code>
-                            }
-                        })}
+                                if (captureOutput)
+                                {
+                                    const uriPath = relativePathToUriPath(path.join(captureOutput, filename));
+
+                                    if (lang === 'css' || lang === 'js' || lang === 'svg')
+                                        content = truncateIfNeeded(content);
+                                    else if (lang !== 'html')
+                                        content = '(no preview available)';
+
+                                    return <Code wordwrap={wordwrapOutput} lang={lang} title={title} uri={uriPath} uriTarget="_blank" uriText="(open in new tab)">{content}</Code>
+                                }
+                            })}
                 </>;
     }
 
@@ -238,7 +256,7 @@ Example.Src =
 
             content = children[0];
         }
-        
+
         //
         // Pass the code back to the <Example> tag via context
         //
@@ -254,8 +272,8 @@ Example.Src =
             return;
         
         if (typeof content === 'string')
-            return <Code lang={lang} title={filename} copyLink="(copy code)">{content}</Code>
+            return <Code title={filename} lang={lang} fixIndent copyLink="(copy code)">{content}</Code>
         else
-            return <Code title={filename}>(no preview available)</Code>
+            return <Code title={filename} fixIndent>(no preview available)</Code>
     }
 
