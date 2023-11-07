@@ -6,7 +6,7 @@ import { Example } from '$SRC/example.jsx';
 import prismTheme from ':raw:@nakedjsx/plugin-asset-prism/theme.css';
 
 const titleSuffix   = "Plugin - @nakedjsx/plugin-asset-mdx";
-const description   = "Import an MDX file as a JSX function";
+const description   = "Import an MDX file as a JSX function.";
 const canonicalUrl  = 'https://nakedjsx.org/documentation/plugin/@nakedjsx/plugin-asset-mdx';
 
 Page.Create('en');
@@ -31,64 +31,42 @@ Page.AppendBody(
         <Inset><p>{description}</p></Inset>
         <p><ReturnToDocLink href="../" /></p>
         <p>
-            This plugin is not bundled with the <Shell>npx nakedjsx</Shell> command, either install it globally for all projects:
+            This plugin is not bundled with the <Shell>npx nakedjsx</Shell> command and must be installed.
+            It can be installed globally:
         </p>
         <Code lang="shell">npm install -g @nakedjsx/plugin-asset-mdx</Code>
         <p>
-            or locally, in a parent directory of your source files (you don't otherwise need to be using a Node project):
+            Or locally, in any parent directory of your source files (you don't otherwise need to be using a Node project):
         </p>
-        ```
-        
-        ```
-
-        
-
-        ```
-        npm install @nakedjsx/plugin-asset-mdx
-        ```
-
+        <Code lang="shell">npm install @nakedjsx/plugin-asset-mdx</Code>
         <p>
-            Here is a usage example that syntax highlights a Node.js hello world program:
+            Usage example:
         </p>
-        <Example buildFlags={['--plugin', 'prism', '@nakedjsx/plugin-asset-prism', '--pretty']} captureOutput={['example', 'plugin-asset-prism']}>
+        <Example buildFlags={['--plugin', 'mdx', '@nakedjsx/plugin-asset-mdx', '--pretty']} captureOutput={['example', 'plugin-asset-mdx']}>
             <Example.Src lang="javascript" filename="src/index-page.jsx">{
 `import { Page } from '@nakedjsx/core/page';
-import { PrismCode } from '@nakedjsx/plugin-asset-prism/jsx';
 
-import prismTheme from '::@nakedjsx/plugin-asset-prism/theme.css';
-
-// JavaScript source for a Node.js hello world http server
-const helloNodeJs =
-\`const http = require('http');
-
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
-});
-
-server.listen(port, hostname, () => {
-  console.log(\\\`Server running at http://\\\${hostname}:\\\${port}/\\\`);
-});\`;
+import HelloMdx from ':mdx:hello.mdx';
 
 Page.Create('en');
-Page.AppendHead(
-    <>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href={prismTheme} />
-    </>
-    );
 Page.AppendBody(
     <>
-        <h1>@nakedjsx/plugin-asset-prism</h1>
-        <p>Try changing between light and dark mode in your OS settings.</p>
-        <pre className="language-javascript"><code><PrismCode lang="javascript" code={helloNodeJs} /></code></pre>
+        <HelloMdx />
     </>
     );
 Page.Render();`
+            }</Example.Src>
+            <Example.Src lang="MDX" filename="src/hello.mdx">{
+`# Hello, MDX!
+
+This markdown will become a *paragraph* tag.
+
+> And this, a blockquote.
+
+1. Lists
+2. are also supported
+
+<p css="color: fuchsia">And HTML with scoped CSS.</p>`
             }</Example.Src>
             <Example.BuildCmd/>
             <p>
